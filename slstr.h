@@ -15,6 +15,8 @@ int sl_str_replace_charn(sl_string *str, const unsigned int n, const char new);
 
 int sl_str_replace_char(sl_string *str, const char old, const char new);
 
+void sl_str_clear(sl_string *str);
+
 // adjust capacity to exactly fit the string
 int sl_str_trim_cap(sl_string *str);
 
