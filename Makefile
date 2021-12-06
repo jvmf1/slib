@@ -10,8 +10,11 @@ NAME=libslib
 
 all: $(NAME)
 
-$(OBJ): $(SRC) $(HEADERS)
-	$(CC) $(CFLAGS) $(LIBFLAGS) -o $@ -c $<
+slll.o: slll.c slll.h
+	$(CC) $(CFLAGS) $(LIBFLAGS) slll.c -c
+
+slstr.o: slstr.c slstr.h
+	$(CC) $(CFLAGS) $(LIBFLAGS) slstr.c -c
 
 $(NAME): $(OBJ)
 	$(CC) -shared $(OBJ) -o $@.so
