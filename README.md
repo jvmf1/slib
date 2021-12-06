@@ -11,7 +11,7 @@ sudo make install
 sl_string *str = sl_str_create_cap(20);
 printf("input string: ");
 // gets stdin string and increases capacity by 10 everytime when needed
-sl_str_gets(str, 32);
+sl_str_gets(str, 10);
 printf("you've typed:%s\n", str->data);
 sl_str_free(str);
 
