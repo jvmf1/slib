@@ -1,6 +1,6 @@
 CC=cc
-INCLUDEDESTDIR=/usr/local/include
-LIBDESTDIR=/usr/local/lib
+INCLUDEDESTDIR=/usr/include
+LIBDESTDIR=/usr/lib
 CFLAGS=-Wall
 LIBFLAGS=-fPIC
 OBJ=slll.o slstr.o
