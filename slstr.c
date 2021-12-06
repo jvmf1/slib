@@ -24,7 +24,7 @@ int sl_str_replace_charn(sl_string *str, const unsigned int n, const char new) {
 
 void sl_str_clear(sl_string *str) {
 	str->len=0;
-	sl->data[0]='\0';
+	str->data[0]='\0';
 }
 
 int sl_str_trim_cap(sl_string *str) {
