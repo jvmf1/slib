@@ -1,3 +1,10 @@
+# installation
+```sh
+git clone https://github.com/jvmf1/slib
+cd slib
+sudo make install
+```
+
 # slstr.h example
 ```c
 // creates initial string with capacity of 20
