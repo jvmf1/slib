@@ -1,4 +1,6 @@
 CC=cc
+INCLUDEDESTDIR=/usr/local/include
+LIBDESTDIR=/usr/local/lib
 CFLAGS=-Wall
 LIBFLAGS=-fPIC
 OBJ=slll.o slstr.o
@@ -15,14 +17,14 @@ $(NAME): $(OBJ)
 	$(CC) -shared $(OBJ) -o $@.so
 
 install: $(NAME)
-	cp -f $(HEADERS) /usr/local/include
-	cp -f $(NAME).so /usr/local/lib
+	cp -f $(HEADERS) $(INCLUDEDESTDIR)
+	cp -f $(NAME).so $(LIBDESTDIR)
 
 uninstall:
 	for h in $(HEADERS); do \
-		rm -f /usr/local/include/$$h ; \
+		rm -f $(INCLUDEDESTDIR)/$$h ; \
 	done
-	rm -f /usr/local/lib/$(NAME).so
+	rm -f $(LIBDESTDIR)/$(NAME).so
 
 clean:
 	rm -f *.o
