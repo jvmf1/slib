@@ -17,6 +17,8 @@ $(NAME): $(OBJ)
 	$(CC) -shared $(OBJ) -o $@.so
 
 install: $(NAME)
+	mkdir -p $(INCLUDEDESTDIR)
+	mkdir -p $(LIBDESTDIR)
 	cp -f $(HEADERS) $(INCLUDEDESTDIR)
 	cp -f $(NAME).so $(LIBDESTDIR)
 
