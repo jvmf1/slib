@@ -1,5 +1,5 @@
 CC=cc
-INCLUDEDESTDIR=/usr/include
+INCLUDEDESTDIR=/usr/include/slib
 LIBDESTDIR=/usr/lib
 CFLAGS=-Wall
 LIBFLAGS=-fPIC
