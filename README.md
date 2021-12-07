@@ -7,6 +7,10 @@ sudo make install
 
 # slstr.h example
 ```c
+#include <slib/slstr.h>
+.
+.
+.
 // creates initial string with capacity of 20
 sl_string *str = sl_str_create_cap(20);
 printf("input string: ");
@@ -27,6 +31,10 @@ fclose(f);
 ```
 # slll.h example
 ```c
+#include <slib/slll.h>
+.
+.
+.
 // you can make your linked list with any *type or *struct
 sl_ll *ll = sl_ll_create();
 sl_ll_push(ll, sl_str_create("apple"));
