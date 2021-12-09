@@ -101,9 +101,11 @@ void sl_ll_free(sl_ll *ll) {
 		return;
 	}
 	
+	sl_ll_entry *next;
 	while(current!=NULL) {
+		next = current->next;
 		sl_ll_entry_free(current);
-		current=current->next;
+		current=next;
 	}
 
 	free(ll);
