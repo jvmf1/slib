@@ -92,6 +92,7 @@ int sl_str_gets(sl_string *str, size_t cap_incr) {
 		if (str->cap < necessary_cap) {
 			sucess = sl_str_incr_cap(str, cap_incr);
 			if (sucess==-1) {
+				str->data[str->len]='\0';
 				return -1;
 			}
 		}
@@ -113,6 +114,7 @@ int sl_str_fgets(sl_string *str, FILE *stream, size_t cap_incr) {
 		if (str->cap < necessary_cap) {
 			sucess = sl_str_incr_cap(str, cap_incr);
 			if (sucess==-1) {
+				str->data[str->len]='\0';
 				return -1;
 			}
 		}
