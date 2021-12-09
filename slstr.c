@@ -2,6 +2,19 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
+
+void sl_str_tolower(sl_string *str) {
+	for(unsigned int i=0;i<str->len;i++) {
+		str->data[i]=tolower(str->data[i]);
+	}
+}
+
+void sl_str_toupper(sl_string *str) {
+	for(unsigned int i=0;i<str->len;i++) {
+		str->data[i]=toupper(str->data[i]);
+	}
+}
 
 int sl_str_replace_char(sl_string *str, const char old, const char new) {
 	if (new=='\0') return -1;

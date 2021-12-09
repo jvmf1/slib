@@ -10,6 +10,10 @@ typedef struct sl_string {
 	char *data;
 } sl_string;
 
+void sl_str_tolower(sl_string *str);
+
+void sl_str_toupper(sl_string *str);
+
 // replaces nth char
 int sl_str_replace_charn(sl_string *str, const unsigned int n, const char new);
 
