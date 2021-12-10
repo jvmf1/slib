@@ -90,6 +90,7 @@ sl_string* sl_str_create_cap(size_t cap) {
 			free(str);
 			return NULL;
 		}
+		str->data[0]='\0';
 	}
 	return str;
 }
