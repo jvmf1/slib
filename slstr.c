@@ -41,13 +41,7 @@ void sl_str_clear(sl_string *str) {
 }
 
 int sl_str_trim_cap(sl_string *str) {
-	char *new_data = malloc(sizeof(char)*str->len+1);
-	if (new_data==NULL) return -1;
-	for(unsigned int i=0;i<str->len+1;i++) {
-		new_data[i]=str->data[i];
-	}
-	free(str->data);
-	str->data=new_data;
+	if(realloc(str->data, sizeof(char)*str->len+1)==NULL) return -1;
 	str->cap=str->len+1;
 	return 0;
 }
@@ -72,9 +66,7 @@ sl_string* sl_str_create(const char *s) {
 			free(str);
 			return NULL;
 		}
-		for (unsigned int i=0;i<str->len;i++) {
-			str->data[i]=s[i];
-		}
+		memcpy(str->data, s, str->len+1);
 	}
 	return str;
 }
@@ -144,10 +136,7 @@ int sl_str_incr_cap(sl_string *str, size_t cap) {
 	size_t new_cap = str->cap + cap;
 	char *new_data = malloc(new_cap);
 	if (new_data==NULL) return -1;
-	unsigned int i;
-	for (i=0;i<str->len+1;i++) {
-		new_data[i]=str->data[i];
-	}
+	memcpy(new_data, str->data, sizeof(char)*str->len+1);
 	str->cap=new_cap;
 	free(str->data);
 	str->data=new_data;
@@ -157,7 +146,6 @@ int sl_str_incr_cap(sl_string *str, size_t cap) {
 int sl_str_cat(sl_string *dest, char *str) {
 	size_t len = strlen(str);
 	if (len==0) return 0;
-	unsigned int i;
 	size_t new_len, necessary_cap;
 	new_len = dest->len + len;
 	necessary_cap = new_len + 1;
@@ -165,9 +153,7 @@ int sl_str_cat(sl_string *dest, char *str) {
 		int sucess = sl_str_incr_cap(dest, necessary_cap - dest->cap);
 		if (sucess==-1) return -1;
 	} 
-	for (i=0;i<len+1;i++) {
-		dest->data[i+dest->len]=str[i];
-	}
+	memcpy(&dest->data[dest->len], str, len+1);
 	dest->len=new_len;
 
 	return 0;
@@ -175,7 +161,6 @@ int sl_str_cat(sl_string *dest, char *str) {
 
 int sl_str_scat(sl_string *dest, sl_string *str) {
 	if (str->len==0) return 0;
-	unsigned int i;
 	size_t new_len, necessary_cap;
 	new_len = dest->len + str->len;
 	necessary_cap = new_len + 1;
@@ -183,9 +168,7 @@ int sl_str_scat(sl_string *dest, sl_string *str) {
 		int sucess = sl_str_incr_cap(dest, necessary_cap - dest->cap);
 		if (sucess==-1) return -1;
 	} 
-	for (i=0;i<str->len+1;i++) {
-		dest->data[i+dest->len]=str->data[i];
-	}
+	memcpy(&dest->data[dest->len], str->data, str->len+1);
 	dest->len=new_len;
 
 	return 0;
@@ -210,9 +193,7 @@ int sl_str_set(sl_string *str, const char *s) {
 		int sucess = sl_str_incr_cap(str, necessary_cap - str->cap);
 		if (sucess==-1) return -1;
 	}
-	for (unsigned int i=0;i<len+1;i++) {
-		str->data[i]=s[i];
-	}
+	memcpy(str->data, s, sizeof(char)*len+1);
 	str->len=len;
 	return 0;
 }
