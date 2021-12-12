@@ -197,3 +197,14 @@ int sl_str_set(sl_string *str, const char *s) {
 	str->len=len;
 	return 0;
 }
+
+int sl_str_sset(sl_string *str, sl_string *s) {
+	size_t necessary_cap = s->len + 1;
+	if (str->cap < necessary_cap) {
+		int sucess = sl_str_incr_cap(str, necessary_cap - str->cap);
+		if (sucess==-1) return -1;
+	}
+	memcpy(str->data, s->data, sizeof(char)*s->len+1);
+	str->len=s->len;
+	return 0;
+}

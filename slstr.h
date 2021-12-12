@@ -46,6 +46,8 @@ int sl_str_incr_cap(sl_string *str, size_t cap);
 // automaticly sets string to s and adjust capacity if needed
 int sl_str_set(sl_string *str, const char *s);
 
+int sl_str_sset(sl_string *str, sl_string *s);
+
 // get stdin and increases cap by cap_incr when needed until '\n'
 int sl_str_gets(sl_string *str, size_t cap_incr);
 
