@@ -159,7 +159,7 @@ void sl_ll_print(sl_ll *ll) {
 	printf("slll %p head:%p tail:%p\n", ll, ll->head, ll->tail);
 	sl_ll_entry *current = ll->head;
 	while (current!=NULL) {
-		printf("\t%p data:%p\tnext:%p prev:%p\n", current, current->data, current->next, current->prev);
+		printf("\t%p data:%p\tprev:%p next:%p\n", current, current->data, current->prev, current->next);
 		current=current->next;
 	}
 }
