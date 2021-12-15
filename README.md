@@ -49,7 +49,7 @@ while (entry!=NULL) {
 	next_entry=entry->next;
 	sl_string *entry_string = ((sl_string*)entry->data);
 	if (strcmp("blue", entry_string->data)==0) {
-		sl_ll_popx(ll, entry);
+		sl_ll_remove(ll, entry);
 		sl_str_free(entry_string);
 	}
 	entry=next_entry;
