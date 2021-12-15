@@ -25,7 +25,7 @@ int sl_ll_push(sl_ll *ll, void *data);
 
 void sl_ll_pop(sl_ll *ll);
 
-void sl_ll_popx(sl_ll *ll, sl_ll_entry *entry);
+void sl_ll_remove(sl_ll *ll, sl_ll_entry *entry);
 
 void sl_ll_print(sl_ll *ll);
 
