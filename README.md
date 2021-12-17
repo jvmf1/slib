@@ -12,7 +12,7 @@ sudo make install
 .
 .
 // creates initial string with capacity of 20
-sl_string *str = sl_str_create_cap(20);
+sl_str *str = sl_str_create_cap(20);
 printf("input string: ");
 // gets stdin string and increases capacity by 10 everytime when needed
 sl_str_gets(str, 10);
@@ -20,7 +20,7 @@ printf("you've typed:%s\n", str->data);
 sl_str_free(str);
 
 FILE *f = popen("uname", "r");
-sl_string *os = sl_str_create_cap(10);
+sl_str *os = sl_str_create_cap(10);
 // gets file string and increases capacity by 5 everytime when needed
 sl_str_fgets(os, f, 5);
 // replaces the last '\n' char with '\0'
@@ -47,7 +47,7 @@ sl_ll_entry *entry=ll->head;
 sl_ll_entry *next_entry;
 while (entry!=NULL) {
 	next_entry=entry->next;
-	sl_string *entry_string = ((sl_string*)entry->data);
+	sl_str *entry_string = ((sl_str*)entry->data);
 	if (strcmp("blue", entry_string->data)==0) {
 		sl_ll_remove(ll, entry);
 		sl_str_free(entry_string);
@@ -58,7 +58,7 @@ while (entry!=NULL) {
 // iterate again printing all strings
 entry=ll->head;
 while (entry!=NULL) {
-	sl_string *entry_string = ((sl_string*)entry->data);
+	sl_str *entry_string = ((sl_str*)entry->data);
 	printf("%s\n", entry_string->data);
 	entry=entry->next;
 }
@@ -66,7 +66,7 @@ while (entry!=NULL) {
 // after using the linked list, free all the data
 entry=ll->head;
 while(entry!=NULL) {
-	sl_string *entry_string = ((sl_string*)entry->data);
+	sl_str *entry_string = ((sl_str*)entry->data);
 	sl_str_free(entry_string);
 	entry=entry->next;
 }

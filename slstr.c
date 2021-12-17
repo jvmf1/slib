@@ -4,19 +4,19 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-void sl_str_tolower(sl_string *str) {
+void sl_str_tolower(sl_str *str) {
 	for(unsigned int i=0;i<str->len;i++) {
 		str->data[i]=tolower(str->data[i]);
 	}
 }
 
-void sl_str_toupper(sl_string *str) {
+void sl_str_toupper(sl_str *str) {
 	for(unsigned int i=0;i<str->len;i++) {
 		str->data[i]=toupper(str->data[i]);
 	}
 }
 
-int sl_str_replace_char(sl_string *str, const char old, const char new) {
+int sl_str_replace_char(sl_str *str, const char old, const char new) {
 	if (new=='\0') return -1;
 	for (unsigned int i=0;i<str->len;i++) {
 		if (str->data[i]==old) str->data[i]=new;
@@ -24,7 +24,7 @@ int sl_str_replace_char(sl_string *str, const char old, const char new) {
 	return 0;
 }
 
-int sl_str_replace_charn(sl_string *str, const unsigned int n, const char new) {
+int sl_str_replace_charn(sl_str *str, const unsigned int n, const char new) {
 	if (new=='\0' && n <= str->len) {
 		str->len=n;
 		str->data[n]=new;
@@ -35,18 +35,18 @@ int sl_str_replace_charn(sl_string *str, const unsigned int n, const char new) {
 	return 0;
 }
 
-void sl_str_clear(sl_string *str) {
+void sl_str_clear(sl_str *str) {
 	str->len=0;
 	str->data[0]='\0';
 }
 
-int sl_str_trim_cap(sl_string *str) {
+int sl_str_trim_cap(sl_str *str) {
 	if(realloc(str->data, sizeof(char)*str->len+1)==NULL) return -1;
 	str->cap=str->len+1;
 	return 0;
 }
 
-sl_string* sl_str_reverse(sl_string *str) {
+sl_str* sl_str_reverse(sl_str *str) {
 	char temp;
 	for (unsigned int i=0;i<str->len/2;i++) {
 		temp = str->data[i];
@@ -56,8 +56,8 @@ sl_string* sl_str_reverse(sl_string *str) {
 	return str;
 }
 
-sl_string* sl_str_create(const char *s) {
-	sl_string *str = malloc(sizeof(sl_string));
+sl_str* sl_str_create(const char *s) {
+	sl_str *str = malloc(sizeof(sl_str));
 	if (str != NULL) {
 		str->len = strlen(s);
 		str->cap = str->len + 1;
@@ -71,9 +71,9 @@ sl_string* sl_str_create(const char *s) {
 	return str;
 }
 
-sl_string* sl_str_create_cap(size_t cap) {
+sl_str* sl_str_create_cap(size_t cap) {
 	if (cap==0) return NULL;
-	sl_string *str = malloc(sizeof(sl_string));
+	sl_str *str = malloc(sizeof(sl_str));
 	if (str != NULL) {
 		str->len = 0;
 		str->cap = cap;
@@ -88,16 +88,16 @@ sl_string* sl_str_create_cap(size_t cap) {
 }
 
 // get stdin and increases capacity by cap_incr when needed
-int sl_str_gets(sl_string *str, size_t cap_incr) {
+int sl_str_gets(sl_str *str, size_t cap_incr) {
 	return sl_str_fgetsx(str, stdin, '\n', cap_incr);
 }
 
 // get FILE stream and increases capacity by cap_incr when needed
-int sl_str_fgets(sl_string *str, FILE *stream, size_t cap_incr) {
+int sl_str_fgets(sl_str *str, FILE *stream, size_t cap_incr) {
 	return sl_str_fgetsx(str, stream, EOF, cap_incr);
 }
 
-int sl_str_fgetsx(sl_string *str, FILE *stream, const char x, size_t cap_incr) {
+int sl_str_fgetsx(sl_str *str, FILE *stream, const char x, size_t cap_incr) {
 	char ch;
 	size_t necessary_cap;
 	int sucess;
@@ -118,7 +118,7 @@ int sl_str_fgetsx(sl_string *str, FILE *stream, const char x, size_t cap_incr) {
 	return 0;
 }
 
-int sl_str_incr_cap(sl_string *str, size_t cap) {
+int sl_str_incr_cap(sl_str *str, size_t cap) {
 	if (cap==0) return 0;
 	size_t new_cap = str->cap + cap;
 	char *new_data = malloc(new_cap);
@@ -130,7 +130,7 @@ int sl_str_incr_cap(sl_string *str, size_t cap) {
 	return 0;
 }
 
-int sl_str_cat(sl_string *dest, char *str) {
+int sl_str_cat(sl_str *dest, char *str) {
 	size_t len = strlen(str);
 	if (len==0) return 0;
 	size_t new_len, necessary_cap;
@@ -146,7 +146,7 @@ int sl_str_cat(sl_string *dest, char *str) {
 	return 0;
 }		
 
-int sl_str_scat(sl_string *dest, sl_string *str) {
+int sl_str_scat(sl_str *dest, sl_str *str) {
 	if (str->len==0) return 0;
 	size_t new_len, necessary_cap;
 	new_len = dest->len + str->len;
@@ -161,19 +161,19 @@ int sl_str_scat(sl_string *dest, sl_string *str) {
 	return 0;
 }		
 
-void sl_str_free(sl_string *str) {
+void sl_str_free(sl_str *str) {
 	free(str->data);
 	free(str);
 }
 
-void sl_str_print(const sl_string *str) {
+void sl_str_print(const sl_str *str) {
 	if (str->len==0)
 		printf("cap:%ld\nlen:%ld\ndata:(nil)\n", str->cap, str->len);
 	else
 		printf("cap:%ld\nlen:%ld\ndata:%s\n", str->cap, str->len, str->data);
 }
 
-int sl_str_set(sl_string *str, const char *s) {
+int sl_str_set(sl_str *str, const char *s) {
 	size_t len = strlen(s);
 	size_t necessary_cap = len + 1;
 	if (str->cap < necessary_cap) {
@@ -185,7 +185,7 @@ int sl_str_set(sl_string *str, const char *s) {
 	return 0;
 }
 
-int sl_str_sset(sl_string *str, sl_string *s) {
+int sl_str_sset(sl_str *str, sl_str *s) {
 	size_t necessary_cap = s->len + 1;
 	if (str->cap < necessary_cap) {
 		int sucess = sl_str_incr_cap(str, necessary_cap - str->cap);
