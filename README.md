@@ -29,7 +29,7 @@ printf("you are using:%s\n", os->data);
 sl_str_free(os);
 fclose(f);
 ```
-# slll.h example
+# slll.h + slstr.h example
 ```c
 #include <slib/slll.h>
 .
