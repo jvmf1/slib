@@ -89,46 +89,12 @@ sl_string* sl_str_create_cap(size_t cap) {
 
 // get stdin and increases capacity by cap_incr when needed
 int sl_str_gets(sl_string *str, size_t cap_incr) {
-	char ch;
-	size_t necessary_cap;
-	int sucess;
-	while((ch=getc(stdin))!='\n') {
-		// new char + null;
-		necessary_cap = str->len + 2;
-		if (str->cap < necessary_cap) {
-			sucess = sl_str_incr_cap(str, cap_incr);
-			if (sucess==-1) {
-				str->data[str->len]='\0';
-				return -1;
-			}
-		}
-		str->data[str->len]=ch;
-		str->len++;
-	}
-	str->data[str->len]='\0';
-	return 0;
+	return sl_str_fgetsx(str, stdin, '\n', cap_incr);
 }
 
 // get FILE stream and increases capacity by cap_incr when needed
 int sl_str_fgets(sl_string *str, FILE *stream, size_t cap_incr) {
-	char ch;
-	size_t necessary_cap;
-	int sucess;
-	while((ch=getc(stream))!=EOF) {
-		// new char + null;
-		necessary_cap = str->len + 2;
-		if (str->cap < necessary_cap) {
-			sucess = sl_str_incr_cap(str, cap_incr);
-			if (sucess==-1) {
-				str->data[str->len]='\0';
-				return -1;
-			}
-		}
-		str->data[str->len]=ch;
-		str->len++;
-	}
-	str->data[str->len]='\0';
-	return 0;
+	return sl_str_fgetsx(str, stream, EOF, cap_incr);
 }
 
 int sl_str_fgetsx(sl_string *str, FILE *stream, const char x, size_t cap_incr) {
