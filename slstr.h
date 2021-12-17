@@ -53,3 +53,6 @@ int sl_str_gets(sl_string *str, size_t cap_incr);
 
 // get FILE stream and increases cap by cap_incr when needed until EOF
 int sl_str_fgets(sl_string *str, FILE *stream, size_t cap_incr);
+
+// get FILE stream and increases cap by cap_incr when needed until 'x'
+int sl_str_fgetsx(sl_string *str, FILE *stream, const char x, size_t cap_incr);

@@ -131,6 +131,27 @@ int sl_str_fgets(sl_string *str, FILE *stream, size_t cap_incr) {
 	return 0;
 }
 
+int sl_str_fgetsx(sl_string *str, FILE *stream, const char x, size_t cap_incr) {
+	char ch;
+	size_t necessary_cap;
+	int sucess;
+	while((ch=getc(stream))!=x) {
+		// new char + null;
+		necessary_cap = str->len + 2;
+		if (str->cap < necessary_cap) {
+			sucess = sl_str_incr_cap(str, cap_incr);
+			if (sucess==-1) {
+				str->data[str->len]='\0';
+				return -1;
+			}
+		}
+		str->data[str->len]=ch;
+		str->len++;
+	}
+	str->data[str->len]='\0';
+	return 0;
+}
+
 int sl_str_incr_cap(sl_string *str, size_t cap) {
 	if (cap==0) return 0;
 	size_t new_cap = str->cap + cap;
