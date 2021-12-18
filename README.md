@@ -31,49 +31,51 @@ fclose(f);
 ```
 # slll.h + slstr.h example
 ```c
-#include <slib/slll.h>
 #include <slib/slstr.h>
-.
-.
-.
-// you can make your linked list with any *type or *struct
-sl_ll *ll = sl_ll_create();
-sl_ll_push(ll, sl_str_create("apple"));
-sl_ll_push(ll, sl_str_create("tree"));
-sl_ll_push(ll, sl_str_create("blue"));
-sl_ll_push(ll, sl_str_create("orange"));
+#include <string.h>
+#include <slib/slll.h>
 
-// iterate through linked list and delete "blue"
-sl_ll_entry *entry=ll->head;
-sl_ll_entry *next_entry;
-while (entry!=NULL) {
-	next_entry=entry->next;
-	sl_str *entry_string = ((sl_str*)entry->data);
-	if (strcmp("blue", entry_string->data)==0) {
-		sl_ll_remove(ll, entry);
-		sl_str_free(entry_string);
+// create a free function with void* arg so slll can free everything correctly
+void free_data(void *data) {
+	sl_str *str = ((sl_str*)data);
+	sl_str_free(str);
+}
+
+
+int main() {
+	// you can make your linked list with any *type or *struct
+	sl_ll *ll = sl_ll_create();
+	// sets free data function
+	ll->free_data_function=free_data;
+	
+	sl_ll_push(ll, sl_str_create("apple"));
+	sl_ll_push(ll, sl_str_create("tree"));
+	sl_ll_push(ll, sl_str_create("blue"));
+	sl_ll_push(ll, sl_str_create("orange"));
+
+	// iterate through linked list and delete "blue"
+	sl_ll_entry *entry=ll->head;
+	sl_ll_entry *next_entry;
+	while (entry!=NULL) {
+		next_entry=entry->next;
+		sl_str *entry_string = ((sl_str*)entry->data);
+		if (strcmp("blue", entry_string->data)==0) {
+			sl_ll_remove(ll, entry);
+		}
+		entry=next_entry;
 	}
-	entry=next_entry;
-}
 
-// iterate again printing all strings
-entry=ll->head;
-while (entry!=NULL) {
-	sl_str *entry_string = ((sl_str*)entry->data);
-	printf("%s\n", entry_string->data);
-	entry=entry->next;
-}
+	// iterate again printing all strings
+	entry=ll->head;
+	while (entry!=NULL) {
+		sl_str *entry_string = ((sl_str*)entry->data);
+		printf("%s\n", entry_string->data);
+		entry=entry->next;
+	}
 
-// after using the linked list, free all the data
-entry=ll->head;
-while(entry!=NULL) {
-	sl_str *entry_string = ((sl_str*)entry->data);
-	sl_str_free(entry_string);
-	entry=entry->next;
+	// finally free the linked list
+	sl_ll_free(ll);
 }
-
-// finally free the linked list
-sl_ll_free(ll);
 
 ```
 # slmap.h + slstr.h example
