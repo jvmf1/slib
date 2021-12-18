@@ -15,7 +15,7 @@ void sl_str_tolower(sl_str *str);
 void sl_str_toupper(sl_str *str);
 
 // replaces nth char
-int sl_str_replace_charn(sl_str *str, const unsigned int n, const char new);
+int sl_str_replace_charn(sl_str *str, const size_t n, const char new);
 
 int sl_str_replace_char(sl_str *str, const char old, const char new);
 

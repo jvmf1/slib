@@ -5,26 +5,26 @@
 #include <ctype.h>
 
 void sl_str_tolower(sl_str *str) {
-	for(unsigned int i=0;i<str->len;i++) {
+	for(size_t i=0;i<str->len;i++) {
 		str->data[i]=tolower(str->data[i]);
 	}
 }
 
 void sl_str_toupper(sl_str *str) {
-	for(unsigned int i=0;i<str->len;i++) {
+	for(size_t i=0;i<str->len;i++) {
 		str->data[i]=toupper(str->data[i]);
 	}
 }
 
 int sl_str_replace_char(sl_str *str, const char old, const char new) {
 	if (new=='\0') return -1;
-	for (unsigned int i=0;i<str->len;i++) {
+	for (size_t i=0;i<str->len;i++) {
 		if (str->data[i]==old) str->data[i]=new;
 	}
 	return 0;
 }
 
-int sl_str_replace_charn(sl_str *str, const unsigned int n, const char new) {
+int sl_str_replace_charn(sl_str *str, const size_t n, const char new) {
 	if (new=='\0' && n <= str->len) {
 		str->len=n;
 		str->data[n]=new;
@@ -48,7 +48,7 @@ int sl_str_trim_cap(sl_str *str) {
 
 sl_str* sl_str_reverse(sl_str *str) {
 	char temp;
-	for (unsigned int i=0;i<str->len/2;i++) {
+	for (size_t i=0;i<str->len/2;i++) {
 		temp = str->data[i];
 		str->data[i] = str->data[str->len - i - 1];
 		str->data[str->len - i - 1]=temp;
