@@ -27,7 +27,7 @@ sl_str_fgets(os, f, 5);
 sl_str_replace_charn(os, os->len-1, '\0');
 printf("you are using:%s\n", os->data);
 sl_str_free(os);
-fclose(f);
+pclose(f);
 ```
 # slll.h + slstr.h example
 ```c
