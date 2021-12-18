@@ -3,21 +3,21 @@
 #include <stdlib.h>
 #include <string.h>
 
-sl_map* sl_map_create(const unsigned int size) {
+sl_map* sl_map_create(size_t size) {
 	sl_map *map = malloc(sizeof(sl_map));
 	if (map==NULL) return NULL;
 	map->size=size;
 	map->free_data_function=NULL;
 	map->entries=malloc(sizeof(sl_map_entry*)*size);
 	if (map->entries==NULL) return NULL;
-	for (unsigned int i=0;i<size;i++) {
+	for (size_t i=0;i<size;i++) {
 		map->entries[i]=NULL;
 	}
 	return map;
 }
 
 void sl_map_free(sl_map *m) {
-	for (unsigned int i=0;i<m->size;i++) {
+	for (size_t i=0;i<m->size;i++) {
 		if (m->entries[i]==NULL) continue;
 		sl_map_entry *tmp = m->entries[i];
 		sl_map_entry *next;
@@ -31,11 +31,11 @@ void sl_map_free(sl_map *m) {
 	free(m);
 }
 
-unsigned int sl_map_hash(const char *str, sl_map* m) {
-	unsigned long hash = 5381;
+size_t sl_map_hash(const char *str, sl_map* m) {
+	size_t hash = 5381;
 	char ch;
 
-	for (int i=0;i<strlen(str);i++) {
+	for (size_t i=0;i<strlen(str);i++) {
 		ch = str[i];
 		hash = ((hash >> 5) + hash) + ch;
 	}
@@ -65,7 +65,7 @@ void sl_map_entry_free(sl_map *m, sl_map_entry *entry) {
 }
 
 int sl_map_insert(sl_map *m, const char *key, void *data) {
-	unsigned int hash = sl_map_hash(key, m);
+	size_t hash = sl_map_hash(key, m);
 	sl_map_entry *tmp = m->entries[hash];
 	sl_map_entry *last;
 	if (tmp==NULL) {
@@ -93,7 +93,7 @@ int sl_map_insert(sl_map *m, const char *key, void *data) {
 }
 
 int sl_map_remove(sl_map *m, const char *key) {
-	unsigned int hash = sl_map_hash(key, m);
+	size_t hash = sl_map_hash(key, m);
 	sl_map_entry *tmp = m->entries[hash];
 	sl_map_entry *last=NULL;
 
@@ -123,7 +123,7 @@ int sl_map_remove(sl_map *m, const char *key) {
 }
 
 void* sl_map_get(sl_map *m, const char *key) {
-	unsigned int hash = sl_map_hash(key, m);
+	size_t hash = sl_map_hash(key, m);
 	sl_map_entry *tmp = m->entries[hash];
 
 	while (tmp!=NULL) {
@@ -136,11 +136,11 @@ void* sl_map_get(sl_map *m, const char *key) {
 }
 
 void sl_map_print(sl_map *m) {
-	printf("map:%p size:%i\n", m, m->size);
-	for (unsigned int i=0;i<m->size;i++) {
+	printf("map:%p size:%ld\n", m, m->size);
+	for (size_t i=0;i<m->size;i++) {
 		if (m->entries[i]==NULL) continue;
 		sl_map_entry *tmp = m->entries[i];
-		printf("\tentry[%d]\n", i);
+		printf("\tentry[%ld]\n", i);
 		while (tmp!=NULL) {
 			printf("\t\t%p key:'%s' data:%p next:%p\n", tmp, tmp->key, tmp->data, tmp->next);
 			tmp=tmp->next;
@@ -148,12 +148,12 @@ void sl_map_print(sl_map *m) {
 	}
 }
 
-sl_map* sl_map_resize(sl_map *m, unsigned int size) {
+sl_map* sl_map_resize(sl_map *m, size_t size) {
 	sl_map *new_map = sl_map_create(size);
 	if (new_map==NULL) return NULL;
 	new_map->free_data_function=m->free_data_function;
 
-	for (unsigned int i=0;i<m->size;i++) {
+	for (size_t i=0;i<m->size;i++) {
 		if (m->entries[i]==NULL) continue;
 		sl_map_entry *tmp = m->entries[i];
 		while (tmp!=NULL) {
