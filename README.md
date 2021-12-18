@@ -32,6 +32,7 @@ fclose(f);
 # slll.h + slstr.h example
 ```c
 #include <slib/slll.h>
+#include <slib/slstr.h>
 .
 .
 .
@@ -73,5 +74,42 @@ while(entry!=NULL) {
 
 // finally free the linked list
 sl_ll_free(ll);
+
+```
+# slmap.h + slstr.h example
+```c
+#include <slib/slstr.h>
+#include <slib/slmap.h>
+
+// create a free function with void* arg so slmap can free everything correctly
+void free_data(void *data) {
+	sl_str *str = ((sl_str*)data);
+	sl_str_free(str);
+}
+
+
+int main() {
+	sl_map *map = sl_map_create(1);
+	// set map data free function
+	map->free_data_function=free_data;
+
+	sl_map_insert(map, "20", sl_str_create("twenty"));
+	sl_map_insert(map, "1", sl_str_create("one"));
+	sl_map_insert(map, "15", sl_str_create("fifteen"));
+	sl_map_print(map);
+
+	sl_str *str = ((sl_str*)sl_map_get(map, "20"));
+	if (str!=NULL)
+		printf("found:%s\n", str->data);
+
+	sl_map_remove(map, "15");
+	sl_map_print(map);
+
+	sl_map *new_map = sl_map_resize(map, 5);
+	sl_map_free(map);
+	sl_map_print(new_map);
+	sl_map_free(new_map);
+}
+
 
 ```
