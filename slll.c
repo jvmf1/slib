@@ -10,7 +10,8 @@ sl_ll_entry* sl_ll_entry_create(void *data) {
 	return entry;
 }
 
-void sl_ll_entry_free(sl_ll_entry *entry) {
+void sl_ll_entry_free(sl_ll *ll, sl_ll_entry *entry) {
+	ll->free_data_function(entry->data);
 	free(entry);
 }
 
@@ -27,14 +28,14 @@ void sl_ll_pop(sl_ll *ll) {
 
 	if (ll->head==ll->tail) {
 		// there is only one entry
-		sl_ll_entry_free(ll->head);
+		sl_ll_entry_free(ll,ll->head);
 		ll->head=NULL;
 		ll->tail=NULL;
 		return;
 	}
 	if (ll->head->next==ll->tail) {
 		// there is two entries
-		sl_ll_entry_free(ll->tail);
+		sl_ll_entry_free(ll,ll->tail);
 		ll->head->next=NULL;
 		ll->tail=ll->head;
 		return;
@@ -43,7 +44,7 @@ void sl_ll_pop(sl_ll *ll) {
 	sl_ll_entry *last = ll->tail;
 	ll->tail=ll->tail->prev;
 	ll->tail->next=NULL;
-	sl_ll_entry_free(last);
+	sl_ll_entry_free(ll,last);
 }
 
 void sl_ll_remove(sl_ll *ll, sl_ll_entry *entry) {
@@ -51,7 +52,7 @@ void sl_ll_remove(sl_ll *ll, sl_ll_entry *entry) {
 	if (ll->head==NULL) return;
 	if (ll->head->next==NULL) {
 		// is the only entry
-		sl_ll_entry_free(entry);
+		sl_ll_entry_free(ll,entry);
 		ll->head=NULL;
 		ll->tail=NULL;
 		return;
@@ -60,13 +61,13 @@ void sl_ll_remove(sl_ll *ll, sl_ll_entry *entry) {
 	// there is 2 entries
 	if (ll->head->next==ll->tail) {
 		if (entry==ll->tail) {
-			sl_ll_entry_free(ll->tail);
+			sl_ll_entry_free(ll,ll->tail);
 			ll->head->next=NULL;
 			ll->head->prev=NULL;
 			ll->tail=ll->head;
 			return;
 		} else {
-			sl_ll_entry_free(ll->head);
+			sl_ll_entry_free(ll,ll->head);
 			ll->tail->next=NULL;
 			ll->tail->prev=NULL;
 			ll->head=ll->tail;
@@ -78,7 +79,7 @@ void sl_ll_remove(sl_ll *ll, sl_ll_entry *entry) {
 		// is the first entry
 		entry->next->prev=NULL;
 		ll->head=entry->next;
-		sl_ll_entry_free(entry);
+		sl_ll_entry_free(ll,entry);
 		return;
 	}
 
@@ -86,13 +87,13 @@ void sl_ll_remove(sl_ll *ll, sl_ll_entry *entry) {
 		// is the last entry
 		entry->prev->next=NULL;
 		ll->tail=entry->prev;
-		sl_ll_entry_free(entry);
+		sl_ll_entry_free(ll,entry);
 		return;
 	}
 
 	entry->prev->next=entry->next;
 	entry->next->prev=entry->prev;
-	sl_ll_entry_free(entry);
+	sl_ll_entry_free(ll,entry);
 }
 
 int sl_ll_push(sl_ll *ll, void *data) {
@@ -165,7 +166,7 @@ void sl_ll_free(sl_ll *ll) {
 	sl_ll_entry *next;
 	while(current!=NULL) {
 		next = current->next;
-		sl_ll_entry_free(current);
+		sl_ll_entry_free(ll,current);
 		current=next;
 	}
 
