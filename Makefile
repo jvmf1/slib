@@ -1,7 +1,7 @@
 CC=cc
 INCLUDEDESTDIR=/usr/include/slib
 LIBDESTDIR=/usr/lib
-CFLAGS=-Wall
+CFLAGS=-Wall -Wextra
 LIBFLAGS=-fPIC
 OBJ=slll.o slstr.o slmap.o
 SRC=slll.c slstr.c slmap.c
