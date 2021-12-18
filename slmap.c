@@ -7,6 +7,7 @@ sl_map* sl_map_create(const unsigned int size) {
 	sl_map *map = malloc(sizeof(sl_map));
 	if (map==NULL) return NULL;
 	map->size=size;
+	map->free_data_function=NULL;
 	map->entries=malloc(sizeof(sl_map_entry*)*size);
 	if (map->entries==NULL) return NULL;
 	for (unsigned int i=0;i<size;i++) {
@@ -58,7 +59,8 @@ sl_map_entry* sl_map_entry_create(const char *key, void *data) {
 
 void sl_map_entry_free(sl_map *m, sl_map_entry *entry) {
 	free(entry->key);
-	m->free_data_function(entry->data);
+	if (m->free_data_function!=NULL)
+		m->free_data_function(entry->data);
 	free(entry);
 }
 
@@ -76,7 +78,8 @@ int sl_map_insert(sl_map *m, const char *key, void *data) {
 	while (tmp!=NULL) {
 		if (strcmp(key, tmp->key)==0) {
 			// is overwriting data
-			m->free_data_function(tmp->data);
+			if (m->free_data_function!=NULL)
+				m->free_data_function(tmp->data);
 			tmp->data=data;
 			return 0;
 		}

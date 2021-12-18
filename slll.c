@@ -11,7 +11,8 @@ sl_ll_entry* sl_ll_entry_create(void *data) {
 }
 
 void sl_ll_entry_free(sl_ll *ll, sl_ll_entry *entry) {
-	ll->free_data_function(entry->data);
+	if (ll->free_data_function!=NULL)
+		ll->free_data_function(entry->data);
 	free(entry);
 }
 
@@ -19,6 +20,7 @@ sl_ll* sl_ll_create() {
 	sl_ll *ll = malloc(sizeof(sl_ll));
 	ll->head=NULL;
 	ll->tail=NULL;
+	ll->free_data_function=NULL;
 	return ll;
 }
 
