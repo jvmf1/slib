@@ -214,6 +214,8 @@ void sl_str_trim_all(sl_str *str, const char ch) {
 			j++;
 		}
 	}
+	if (str->data[j]==ch && addchar==false)
+		j--;
 	str->len=j;
 	str->data[j]='\0';
 }
