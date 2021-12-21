@@ -197,24 +197,48 @@ int sl_str_sset(sl_str *str, sl_str *s) {
 	return 0;
 }
 
-void sl_str_strip(sl_str *str) {
+void sl_str_trim_all(sl_str *str, const char ch) {
 	size_t j = 0;
 	size_t i;
-	bool addspace = false;
+	bool addchar = false;
 	for (i=0;i<str->len;i++) {
-		if (str->data[i]==' ') {
-			if (addspace==true) {
-				addspace=false;
+		if (str->data[i]==ch) {
+			if (addchar==true) {
+				addchar=false;
 				str->data[j]=str->data[i];
 				j++;
 			}
 		} else {
-			addspace=true;
+			addchar=true;
 			str->data[j]=str->data[i];
 			j++;
 		}
 	}
 	str->len=j;
 	str->data[j]='\0';
+}
 
+void sl_str_trim(sl_str *str, const char ch) {
+	size_t i;
+	size_t fi=str->len; // first index
+
+	for (i=0;i<str->len;i++) {
+		if (str->data[i]!=ch) {
+			fi=i;
+			break;
+		}
+	}
+	if (fi==str->len) return;
+
+	size_t li=fi; // last index
+	for (i=str->len-1;i>=fi;i--) {
+		if (str->data[i]!=ch) {
+			li=i;
+			break;
+		}
+	}
+
+	memcpy(str->data, str->data+fi, li-fi+1);
+	str->data[li-fi+1]='\0';
+	str->len=li-fi+1;
 }
