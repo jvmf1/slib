@@ -8,26 +8,27 @@ sudo make install
 # slstr.h example
 ```c
 #include <slib/slstr.h>
-.
-.
-.
-// creates initial string with capacity of 20
-sl_str *str = sl_str_create_cap(20);
-printf("input string: ");
-// gets stdin string and increases capacity by 10 everytime when needed
-sl_str_gets(str, 10);
-printf("you've typed:%s\n", str->data);
-sl_str_free(str);
 
-FILE *f = popen("uname", "r");
-sl_str *os = sl_str_create_cap(10);
-// gets file string and increases capacity by 5 everytime when needed
-sl_str_fgets(os, f, 5);
-// replaces the last '\n' char with '\0'
-sl_str_replace_charn(os, os->len-1, '\0');
-printf("you are using:%s\n", os->data);
-sl_str_free(os);
-pclose(f);
+int main() {
+
+	sl_str *str = sl_str_create_cap(20);
+	printf("input string: ");
+	// gets stdin string and increases capacity by 10 everytime when needed
+	sl_str_gets(str, 10);
+	printf("you've typed:%s\n", str->data);
+	sl_str_free(str);
+
+	FILE *f = popen("uname", "r");
+	sl_str *os = sl_str_create_cap(10);
+	// gets file string and increases capacity by 5 everytime when needed
+	sl_str_fgets(os, f, 5);
+	// trims all '\n' chars at the beginning and end of the string
+	sl_str_trim(os, '\n');
+	printf("you are using:%s\n", os->data);
+	sl_str_free(os);
+	pclose(f);
+}
+
 ```
 # slll.h + slstr.h example
 ```c
