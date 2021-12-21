@@ -48,13 +48,24 @@ int sl_str_set(sl_str *str, const char *s);
 
 int sl_str_sset(sl_str *str, sl_str *s);
 
-// get stdin and increases cap by cap_incr when needed until '\n'
+/* get stdin and increases cap by cap_incr when needed until '\n' or EOF
+ * returns:
+ *		0 if finds '\n'
+ *		1 if finds EOF
+ *		-1 if fail to incr cap */
 int sl_str_gets(sl_str *str, size_t cap_incr);
 
-// get FILE stream and increases cap by cap_incr when needed until EOF
+/* get FILE stream and increases cap by cap_incr when needed until EOF
+ * return:
+ *		0 if finds EOF
+ *		-1 if fail to incr cap */
 int sl_str_fgets(sl_str *str, FILE *stream, size_t cap_incr);
 
-// get FILE stream and increases cap by cap_incr when needed until 'x'
+/* get FILE stream and increases cap by cap_incr when needed until 'x' or EOF
+ * returns:
+ *		0 if finds 'x'
+ *		1 if finds EOF
+ *		-1 if fail to incr cap */
 int sl_str_fgetsx(sl_str *str, FILE *stream, const char x, size_t cap_incr);
 
 // removes conscultives 'ch' and 'ch' at the beginning and end
@@ -62,3 +73,6 @@ void sl_str_trim_all(sl_str *str, const char ch);
 
 // removes 'ch' at the beginning and end
 void sl_str_trim(sl_str *str, const char ch);
+
+// calculate levenshtein distance
+size_t sl_str_distance (sl_str *str, sl_str * str2);
