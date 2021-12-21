@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <stdbool.h>
 
 void sl_str_tolower(sl_str *str) {
 	for(size_t i=0;i<str->len;i++) {
@@ -194,4 +195,26 @@ int sl_str_sset(sl_str *str, sl_str *s) {
 	memcpy(str->data, s->data, sizeof(char)*s->len+1);
 	str->len=s->len;
 	return 0;
+}
+
+void sl_str_strip(sl_str *str) {
+	size_t j = 0;
+	size_t i;
+	bool addspace = false;
+	for (i=0;i<str->len;i++) {
+		if (str->data[i]==' ') {
+			if (addspace==true) {
+				addspace=false;
+				str->data[j]=str->data[i];
+				j++;
+			}
+		} else {
+			addspace=true;
+			str->data[j]=str->data[i];
+			j++;
+		}
+	}
+	str->len=j;
+	str->data[j]='\0';
+
 }

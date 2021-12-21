@@ -56,3 +56,6 @@ int sl_str_fgets(sl_str *str, FILE *stream, size_t cap_incr);
 
 // get FILE stream and increases cap by cap_incr when needed until 'x'
 int sl_str_fgetsx(sl_str *str, FILE *stream, const char x, size_t cap_incr);
+
+// removes conscultives spaces and spaces at the beginning and end
+void sl_str_strip(sl_str *str);
