@@ -231,7 +231,10 @@ void sl_str_trim(sl_str *str, const char ch) {
 			break;
 		}
 	}
-	if (fi==str->len) return;
+	if (fi==str->len) {
+		sl_str_clear(str);
+		return;
+	}
 
 	size_t li=fi; // last index
 	for (i=str->len-1;i>=fi;i--) {
@@ -240,49 +243,48 @@ void sl_str_trim(sl_str *str, const char ch) {
 			break;
 		}
 	}
-
 	memcpy(str->data, str->data+fi, li-fi+1);
 	str->data[li-fi+1]='\0';
 	str->len=li-fi+1;
 }
 
 size_t sl_str_distance (sl_str *str, sl_str * str2){
-    size_t matrix[str->len + 1][str2->len + 1];
-    size_t i;
-    for (i = 0; i <= str->len; i++) {
-        matrix[i][0] = i;
-    }
-    for (i = 0; i <= str2->len; i++) {
-        matrix[0][i] = i;
-    }
-    for (i = 1; i <= str->len; i++) {
-        size_t j;
-        char c1;
+	size_t matrix[str->len + 1][str2->len + 1];
+	size_t i;
+	for (i = 0; i <= str->len; i++) {
+		matrix[i][0] = i;
+	}
+	for (i = 0; i <= str2->len; i++) {
+		matrix[0][i] = i;
+	}
+	for (i = 1; i <= str->len; i++) {
+		size_t j;
+		char c1;
 
-        c1 = str->data[i-1];
-        for (j = 1; j <= str2->len; j++) {
-            char c2;
+		c1 = str->data[i-1];
+		for (j = 1; j <= str2->len; j++) {
+			char c2;
 
-            c2 = str2->data[j-1];
-            if (c1 == c2) {
-                matrix[i][j] = matrix[i-1][j-1];
-            }
-            else {
-                size_t delete, insert, substitute, minimum;
+			c2 = str2->data[j-1];
+			if (c1 == c2) {
+				matrix[i][j] = matrix[i-1][j-1];
+			}
+			else {
+				size_t delete, insert, substitute, minimum;
 
-                delete = matrix[i-1][j] + 1;
-                insert = matrix[i][j-1] + 1;
-                substitute = matrix[i-1][j-1] + 1;
-                minimum = delete;
-                if (insert < minimum) {
-                    minimum = insert;
-                }
-                if (substitute < minimum) {
-                    minimum = substitute;
-                }
-                matrix[i][j] = minimum;
-            }
-        }
-    }
-    return matrix[str->len][str2->len];
+				delete = matrix[i-1][j] + 1;
+				insert = matrix[i][j-1] + 1;
+				substitute = matrix[i-1][j-1] + 1;
+				minimum = delete;
+				if (insert < minimum) {
+					minimum = insert;
+				}
+				if (substitute < minimum) {
+					minimum = substitute;
+				}
+				matrix[i][j] = minimum;
+			}
+		}
+	}
+	return matrix[str->len][str2->len];
 }
