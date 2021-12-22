@@ -1,12 +1,21 @@
 CC=cc
-INCLUDEDESTDIR=/usr/include/slib
-LIBDESTDIR=/usr/lib
 CFLAGS=-Wall -Wextra
 LIBFLAGS=-fPIC
+NAME=libslib
+
+OS=$(shell uname)
+ifeq ($(OS), Linux)
+	INCLUDEDESTDIR=/usr/include/slib
+	LIBDESTDIR=/usr/lib
+else
+	# BSD
+	INCLUDEDESTDIR=/usr/local/include/slib
+	LIBDESTDIR=/usr/local/lib
+endif
+
 OBJ=slll.o slstr.o slmap.o
 SRC=slll.c slstr.c slmap.c
 HEADERS=slll.h slstr.h slmap.h
-NAME=libslib
 
 all: $(NAME)
 
