@@ -2,15 +2,8 @@ CC=cc
 CFLAGS=-Wall -Wextra -fPIC
 NAME=libslib
 
-OS=$(shell uname)
-ifeq ($(OS), Linux)
-	INCLUDEDESTDIR=/usr/include/slib
-	LIBDESTDIR=/usr/lib
-else
-	# BSD
-	INCLUDEDESTDIR=/usr/local/include/slib
-	LIBDESTDIR=/usr/local/lib
-endif
+INCLUDEDESTDIR=/usr/local/include/slib
+LIBDESTDIR=/usr/local/lib
 
 $(info $$CC = $(CC))
 $(info $$CFLAGS = $(CFLAGS))
