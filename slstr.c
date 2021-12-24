@@ -103,7 +103,10 @@ int sl_str_fgetsx(sl_str *str, FILE *stream, const char x, size_t cap_incr) {
 	size_t necessary_cap;
 	int sucess;
 	while((ch=getc(stream))!=x) {
-		if (ch==EOF) return 1;
+		if (ch==EOF) {
+			str->data[str->len]='\0';
+			return 1;
+		}
 		// new char + null;
 		necessary_cap = str->len + 2;
 		if (str->cap < necessary_cap) {
