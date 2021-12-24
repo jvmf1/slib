@@ -1,6 +1,5 @@
 CC=cc
-CFLAGS=-Wall -Wextra
-LIBFLAGS=-fPIC
+CFLAGS=-Wall -Wextra -fPIC
 NAME=libslib
 
 OS=$(shell uname)
@@ -14,19 +13,13 @@ else
 endif
 
 OBJ=slll.o slstr.o slmap.o
-SRC=slll.c slstr.c slmap.c
+# SRC=slll.c slstr.c slmap.c
 HEADERS=slll.h slstr.h slmap.h
 
 all: $(NAME)
 
-slll.o: slll.c slll.h
-	$(CC) $(CFLAGS) $(LIBFLAGS) slll.c -c
-
-slstr.o: slstr.c slstr.h
-	$(CC) $(CFLAGS) $(LIBFLAGS) slstr.c -c
-
-slmap.o: slmap.c slmap.h
-	$(CC) $(CFLAGS) $(LIBFLAGS) slmap.c -c
+%.o: %.c %.h
+	$(CC) $(CFLAGS) -c $<
 
 $(NAME): $(OBJ)
 	$(CC) -shared $(OBJ) -o $@.so
