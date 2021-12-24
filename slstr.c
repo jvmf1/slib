@@ -250,7 +250,8 @@ void sl_str_trim(sl_str *str, const char ch) {
 
 size_t sl_str_distance (sl_str *str, sl_str * str2){
 	size_t matrix[str->len + 1][str2->len + 1];
-	size_t i;
+	size_t i,j;
+	size_t delete, insert, substitute, minimum;
 	for (i = 0; i <= str->len; i++) {
 		matrix[i][0] = i;
 	}
@@ -258,19 +259,13 @@ size_t sl_str_distance (sl_str *str, sl_str * str2){
 		matrix[0][i] = i;
 	}
 	for (i = 1; i <= str->len; i++) {
-		size_t j;
-		char c1;
 
-		c1 = str->data[i-1];
 		for (j = 1; j <= str2->len; j++) {
-			char c2;
 
-			c2 = str2->data[j-1];
-			if (c1 == c2) {
+			if (str->data[i-1] == str2->data[j-1]) {
 				matrix[i][j] = matrix[i-1][j-1];
 			}
 			else {
-				size_t delete, insert, substitute, minimum;
 
 				delete = matrix[i-1][j] + 1;
 				insert = matrix[i][j-1] + 1;
