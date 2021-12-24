@@ -16,15 +16,15 @@ OBJ=slll.o slstr.o slmap.o
 # SRC=slll.c slstr.c slmap.c
 HEADERS=slll.h slstr.h slmap.h
 
-all: $(NAME)
+all: $(NAME).so
 
 %.o: %.c %.h
 	$(CC) $(CFLAGS) -c $<
 
-$(NAME): $(OBJ)
-	$(CC) -shared $(OBJ) -o $@.so
+$(NAME).so: $(OBJ)
+	$(CC) -shared $(OBJ) -o $@
 
-install: $(NAME)
+install: $(NAME).so
 	mkdir -p $(INCLUDEDESTDIR)
 	mkdir -p $(LIBDESTDIR)
 	cp -f $(HEADERS) $(INCLUDEDESTDIR)
