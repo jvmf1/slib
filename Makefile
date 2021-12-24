@@ -12,6 +12,11 @@ else
 	LIBDESTDIR=/usr/local/lib
 endif
 
+$(info $$CC = $(CC))
+$(info $$CFLAGS = $(CFLAGS))
+$(info $$INCLUDEDESTDIR = $(INCLUDEDESTDIR))
+$(info $$LIBDESTDIR = $(LIBDESTDIR))
+
 OBJ=slll.o slstr.o slmap.o
 # SRC=slll.c slstr.c slmap.c
 HEADERS=slll.h slstr.h slmap.h
