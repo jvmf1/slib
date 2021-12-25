@@ -24,7 +24,7 @@ void sl_str_clear(sl_str *str);
 // adjust capacity to exactly fit the string
 int sl_str_trim_cap(sl_str *str);
 
-sl_str* sl_str_reverse(sl_str *str);
+void sl_str_reverse(sl_str *str);
 
 void sl_str_print(const sl_str *str);
 

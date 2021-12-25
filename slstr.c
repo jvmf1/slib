@@ -47,14 +47,13 @@ int sl_str_trim_cap(sl_str *str) {
 	return 0;
 }
 
-sl_str* sl_str_reverse(sl_str *str) {
+void sl_str_reverse(sl_str *str) {
 	char temp;
 	for (size_t i=0;i<str->len/2;i++) {
 		temp = str->data[i];
 		str->data[i] = str->data[str->len - i - 1];
 		str->data[str->len - i - 1]=temp;
 	}
-	return str;
 }
 
 sl_str* sl_str_create(const char *s) {
