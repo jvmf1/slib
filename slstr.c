@@ -297,3 +297,17 @@ size_t sl_str_distance (sl_str *str, sl_str * str2){
 	}
 	return matrix[str->len][str2->len];
 }
+
+sl_str* sl_str_fread(FILE *f) {
+	fseek(f, 0, SEEK_END);
+	long int size = ftell(f);
+	if (size == -1)
+		return NULL;
+	fseek(f, 0, SEEK_SET);
+	sl_str *str = sl_str_create_cap(size+1);
+	if (str == NULL)
+		return NULL;
+	fread(str->data, size+1, 1, f);
+	str->len = size;
+	return str;
+}
