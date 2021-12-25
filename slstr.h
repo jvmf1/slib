@@ -74,5 +74,9 @@ void sl_str_trim_all(sl_str *str, const char ch);
 // removes 'ch' at the beginning and end
 void sl_str_trim(sl_str *str, const char ch);
 
+void sl_str_trim_right(sl_str *str, const char ch);
+
+void sl_str_trim_left(sl_str *str, const char ch);
+
 // calculate levenshtein distance
 size_t sl_str_distance (sl_str *str, sl_str * str2);

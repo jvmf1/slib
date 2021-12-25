@@ -225,30 +225,42 @@ void sl_str_trim_all(sl_str *str, const char ch) {
 }
 
 void sl_str_trim(sl_str *str, const char ch) {
-	size_t i;
-	size_t fi=str->len; // first index
+	sl_str_trim_right(str, ch);
+	sl_str_trim_left(str, ch);
+}
 
-	for (i=0;i<str->len;i++) {
-		if (str->data[i]!=ch) {
-			fi=i;
+void sl_str_trim_right(sl_str *str, const char ch) {
+	if (str->len == 0)
+		return;
+	size_t i;
+	for (i = str->len -1; i != 0; i--) {
+		if (str->data[i] != ch) {
 			break;
 		}
 	}
-	if (fi==str->len) {
+	if (i == 0 && str->data[0] == ch) {
 		sl_str_clear(str);
 		return;
 	}
+	str->data[i + 1] = '\0';
+	str->len = i + 1;
+}
 
-	size_t li=fi; // last index
-	for (i=str->len-1;i>=fi;i--) {
-		if (str->data[i]!=ch) {
-			li=i;
+void sl_str_trim_left(sl_str *str, const char ch) {
+	if (str->len == 0)
+		return;
+	size_t i;
+	for (i = 0; i < str->len; i++) {
+		if (str->data[i] != ch) {
 			break;
 		}
 	}
-	memcpy(str->data, str->data+fi, li-fi+1);
-	str->data[li-fi+1]='\0';
-	str->len=li-fi+1;
+	if (i==str->len) {
+		sl_str_clear(str);
+		return;
+	}
+	memcpy(str->data, str->data + i, str->len -i + 1);
+	str->len -= i;
 }
 
 size_t sl_str_distance (sl_str *str, sl_str * str2){
