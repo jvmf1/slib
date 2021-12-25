@@ -83,3 +83,5 @@ size_t sl_str_distance (sl_str *str, sl_str * str2);
 
 // sl_str_fread does not close FILE
 sl_str* sl_str_fread(FILE *f);
+
+int sl_str_ccat(sl_str *str, const char ch);

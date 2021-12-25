@@ -311,3 +311,14 @@ sl_str* sl_str_fread(FILE *f) {
 	str->len = size;
 	return str;
 }
+
+int sl_str_ccat(sl_str *str, const char ch) {
+	if (str->len + 1 >= str->cap) {
+		if (sl_str_incr_cap(str, 1) == -1)
+			return -1;
+	}
+	str->len++;
+	str->data[str->len - 1] = ch;
+	str->data[str->len] = '\0';
+	return 0;
+}
