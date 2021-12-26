@@ -378,3 +378,12 @@ int sl_str_breakline(sl_str *str, size_t count) {
 
 	return 0;
 }
+
+int sl_str_count_char(sl_str *str, const char ch) {
+	int c = 0;
+	for (size_t i = 0; i < str->len; i++) {
+		if (str->data[i] == ch)
+			c++;
+	}
+	return c;
+}

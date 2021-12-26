@@ -88,3 +88,5 @@ int sl_str_ccat(sl_str *str, const char ch);
 
 // automatically breaks line if it doesn't find any in 'count' times
 int sl_str_breakline(sl_str *str, size_t count);
+
+int sl_str_count_char(sl_str *str, const char ch);
