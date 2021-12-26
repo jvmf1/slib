@@ -129,7 +129,6 @@ int sl_str_incr_cap(sl_str *str, size_t cap) {
 	char *new_data = malloc(new_cap);
 	if (new_data==NULL)
 		return -1;
-	printf("increasing cap by %ld\n", cap);
 	memcpy(new_data, str->data, sizeof(char)*str->len+1);
 	str->cap=new_cap;
 	free(str->data);
