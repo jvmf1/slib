@@ -415,6 +415,7 @@ int sl_str_printf(sl_str *str, const char *fmt, ...) {
 
 	str->len = n + str->len;
 	va_end(cp);
+	va_end(args);
 
 	return 0;
 }
