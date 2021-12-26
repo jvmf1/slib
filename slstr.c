@@ -334,21 +334,21 @@ int sl_str_breakline(sl_str *str, size_t count) {
 	size_t i;
 	// get the amount to increase capacity
 	for (i = 0; i < str->len; i++) {
-		if (str->data[i] == '\n')
+		if (str->data[i] == '\n') {
 			j = 0;
+		}
 
-		j++;
-		if (j > count) {
+		if (j >= count) {
 			j = 0;
-			j++;
 			addcap++;
 		}
+		j++;
 	}
 
 	if (addcap == 0)
 		return 0;
 
-	sl_str *new_str = sl_str_create_cap(str->cap+addcap);
+	sl_str *new_str = sl_str_create_cap(str->len + addcap + 1);
 
 	if (new_str == NULL)
 		return -1;
@@ -356,20 +356,18 @@ int sl_str_breakline(sl_str *str, size_t count) {
 	j=0;
 
 	for (i = 0; i < str->len; i++) {
-		if (str->data[i] == '\n')
+		if (str->data[i] == '\n') {
 			j = 0;
+		}
 
-		j++;
-		if (j > count) {
+		if (j >= count) {
 			j = 0;
 			new_str->data[new_str->len] = '\n';
-			new_str->data[new_str->len+1] = str->data[i];
-			new_str->len+=2;
-			j++;
-			continue;
+			new_str->len++;
 		}
 		new_str->data[new_str->len] = str->data[i];
 		new_str->len++;
+		j++;
 	}
 
 	str->cap = new_str->cap;
