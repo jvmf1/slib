@@ -322,3 +322,61 @@ int sl_str_ccat(sl_str *str, const char ch) {
 	str->data[str->len] = '\0';
 	return 0;
 }
+
+int sl_str_breakline(sl_str *str, size_t count) {
+
+	if (count == 0) {
+		return 0;
+	}
+
+	size_t addcap=0;
+	size_t j=0;
+	size_t i;
+	// get the amount to increase capacity
+	for (i = 0; i < str->len; i++) {
+		if (str->data[i] == '\n')
+			j = 0;
+
+		j++;
+		if (j >= count) {
+			addcap++;
+			j = 0;
+			continue;
+		}
+	}
+
+	if (addcap + str->len + 1 > str->cap) {
+		if (sl_str_incr_cap(str, addcap) != 0)
+			return -1;
+	}
+
+	sl_str *new_str = sl_str_create_cap(str->cap);
+	if (new_str == NULL)
+		return -1;
+
+	j=0;
+
+	for (i = 0; i < str->len; i++) {
+		if (str->data[i] == '\n')
+			j = 0;
+
+		j++;
+		if (j > count) {
+			j = 0;
+			new_str->data[new_str->len] = '\n';
+			new_str->data[new_str->len+1] = str->data[i];
+			j++;
+			new_str->len+=2;
+			continue;
+		}
+		new_str->data[new_str->len] = str->data[i];
+		new_str->len++;
+	}
+
+	str->cap = new_str->cap;
+	str->len = new_str->len;
+	str->data = new_str->data;
+	free(new_str);
+
+	return 0;
+}
