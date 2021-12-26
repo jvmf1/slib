@@ -43,7 +43,11 @@ void sl_str_clear(sl_str *str) {
 }
 
 int sl_str_trim_cap(sl_str *str) {
-	if(realloc(str->data, sizeof(char)*str->len+1)==NULL) return -1;
+	if (str->len + 1 == str->cap)
+		return 0;
+	char *new_data = realloc(str->data, str->len + 1);
+	if (new_data == NULL)
+		return -1;
 	str->cap=str->len+1;
 	return 0;
 }
@@ -126,12 +130,10 @@ int sl_str_fgetsx(sl_str *str, FILE *stream, const char x, size_t cap_incr) {
 int sl_str_incr_cap(sl_str *str, size_t cap) {
 	if (cap==0) return 0;
 	size_t new_cap = str->cap + cap;
-	char *new_data = malloc(new_cap);
+	char *new_data = realloc(str->data, new_cap);
 	if (new_data==NULL)
 		return -1;
-	memcpy(new_data, str->data, sizeof(char)*str->len+1);
 	str->cap=new_cap;
-	free(str->data);
 	str->data=new_data;
 	return 0;
 }
