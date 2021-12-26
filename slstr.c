@@ -338,19 +338,18 @@ int sl_str_breakline(sl_str *str, size_t count) {
 			j = 0;
 
 		j++;
-		if (j >= count) {
-			addcap++;
+		if (j > count) {
 			j = 0;
-			continue;
+			j++;
+			addcap++;
 		}
 	}
 
-	if (addcap + str->len + 1 > str->cap) {
-		if (sl_str_incr_cap(str, addcap) != 0)
-			return -1;
-	}
+	if (addcap == 0)
+		return 0;
 
-	sl_str *new_str = sl_str_create_cap(str->cap);
+	sl_str *new_str = sl_str_create_cap(str->cap+addcap);
+
 	if (new_str == NULL)
 		return -1;
 
@@ -365,8 +364,8 @@ int sl_str_breakline(sl_str *str, size_t count) {
 			j = 0;
 			new_str->data[new_str->len] = '\n';
 			new_str->data[new_str->len+1] = str->data[i];
-			j++;
 			new_str->len+=2;
+			j++;
 			continue;
 		}
 		new_str->data[new_str->len] = str->data[i];
@@ -376,6 +375,7 @@ int sl_str_breakline(sl_str *str, size_t count) {
 	str->cap = new_str->cap;
 	str->len = new_str->len;
 	str->data = new_str->data;
+	str->data[str->len+1]='\0';
 	free(new_str);
 
 	return 0;
