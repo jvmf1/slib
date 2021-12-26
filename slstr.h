@@ -90,3 +90,6 @@ int sl_str_ccat(sl_str *str, const char ch);
 int sl_str_breakline(sl_str *str, size_t count);
 
 int sl_str_count_char(sl_str *str, const char ch);
+
+// increases str->cap by cap - str->cap if needed
+int sl_str_reserve(sl_str *str, size_t cap);

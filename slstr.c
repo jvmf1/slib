@@ -126,7 +126,8 @@ int sl_str_incr_cap(sl_str *str, size_t cap) {
 	if (cap==0) return 0;
 	size_t new_cap = str->cap + cap;
 	char *new_data = malloc(new_cap);
-	if (new_data==NULL) return -1;
+	if (new_data==NULL)
+		return -1;
 	memcpy(new_data, str->data, sizeof(char)*str->len+1);
 	str->cap=new_cap;
 	free(str->data);
@@ -137,31 +138,23 @@ int sl_str_incr_cap(sl_str *str, size_t cap) {
 int sl_str_cat(sl_str *dest, char *str) {
 	size_t len = strlen(str);
 	if (len==0) return 0;
-	size_t new_len, necessary_cap;
+	size_t new_len;
 	new_len = dest->len + len;
-	necessary_cap = new_len + 1;
-	if (dest->cap < necessary_cap) {
-		int sucess = sl_str_incr_cap(dest, necessary_cap - dest->cap);
-		if (sucess==-1) return -1;
-	} 
+	if (sl_str_reserve(dest, new_len + 1) == -1)
+		return -1;
 	memcpy(&dest->data[dest->len], str, len+1);
 	dest->len=new_len;
-
 	return 0;
 }		
 
 int sl_str_scat(sl_str *dest, sl_str *str) {
 	if (str->len==0) return 0;
-	size_t new_len, necessary_cap;
+	size_t new_len;
 	new_len = dest->len + str->len;
-	necessary_cap = new_len + 1;
-	if (dest->cap < necessary_cap) {
-		int sucess = sl_str_incr_cap(dest, necessary_cap - dest->cap);
-		if (sucess==-1) return -1;
-	} 
+	if (sl_str_reserve(dest, new_len + 1) == -1)
+		return -1;
 	memcpy(&dest->data[dest->len], str->data, str->len+1);
 	dest->len=new_len;
-
 	return 0;
 }		
 
@@ -179,22 +172,16 @@ void sl_str_print(const sl_str *str) {
 
 int sl_str_set(sl_str *str, const char *s) {
 	size_t len = strlen(s);
-	size_t necessary_cap = len + 1;
-	if (str->cap < necessary_cap) {
-		int sucess = sl_str_incr_cap(str, necessary_cap - str->cap);
-		if (sucess==-1) return -1;
-	}
+	if (sl_str_reserve(str, len + 1) == -1)
+		return -1;
 	memcpy(str->data, s, sizeof(char)*len+1);
 	str->len=len;
 	return 0;
 }
 
 int sl_str_sset(sl_str *str, sl_str *s) {
-	size_t necessary_cap = s->len + 1;
-	if (str->cap < necessary_cap) {
-		int sucess = sl_str_incr_cap(str, necessary_cap - str->cap);
-		if (sucess==-1) return -1;
-	}
+	if (sl_str_reserve(str, s->len + 1) == -1)
+		return -1;
 	memcpy(str->data, s->data, sizeof(char)*s->len+1);
 	str->len=s->len;
 	return 0;
@@ -314,10 +301,8 @@ sl_str* sl_str_fread(FILE *f) {
 
 int sl_str_ccat(sl_str *str, const char ch) {
 	// null + ch
-	if (str->len + 2 > str->cap) {
-		if (sl_str_incr_cap(str, 1) == -1)
-			return -1;
-	}
+	if (sl_str_reserve(str, str->len + 2) == -1)
+		return -1;
 	str->len++;
 	str->data[str->len - 1] = ch;
 	str->data[str->len] = '\0';
@@ -387,4 +372,12 @@ int sl_str_count_char(sl_str *str, const char ch) {
 			c++;
 	}
 	return c;
+}
+
+int sl_str_reserve(sl_str *str, size_t cap) {
+	if (cap > str->cap) {
+		if (sl_str_incr_cap(str, cap - str->cap) == -1)
+			return -1;
+	}
+	return 0;
 }
