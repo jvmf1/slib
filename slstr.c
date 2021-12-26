@@ -313,7 +313,8 @@ sl_str* sl_str_fread(FILE *f) {
 }
 
 int sl_str_ccat(sl_str *str, const char ch) {
-	if (str->len + 1 >= str->cap) {
+	// null + ch
+	if (str->len + 2 > str->cap) {
 		if (sl_str_incr_cap(str, 1) == -1)
 			return -1;
 	}
