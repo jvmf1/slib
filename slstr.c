@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <stdarg.h>
 
 void sl_str_tolower(sl_str *str) {
 	for(size_t i=0;i<str->len;i++) {
@@ -128,6 +129,7 @@ int sl_str_incr_cap(sl_str *str, size_t cap) {
 	char *new_data = malloc(new_cap);
 	if (new_data==NULL)
 		return -1;
+	printf("increasing cap by %ld\n", cap);
 	memcpy(new_data, str->data, sizeof(char)*str->len+1);
 	str->cap=new_cap;
 	free(str->data);
@@ -379,5 +381,39 @@ int sl_str_reserve(sl_str *str, size_t cap) {
 		if (sl_str_incr_cap(str, cap - str->cap) == -1)
 			return -1;
 	}
+	return 0;
+}
+
+int sl_str_printf(sl_str *str, const char *fmt, ...) {
+	va_list args;
+	va_list cp;
+	int n;
+
+	va_start(args, fmt);
+	va_copy(cp, args);
+
+	n = vsnprintf(str->data + str->len, str->cap - str->len, fmt, cp);
+	va_end(cp);
+
+	if (n == -1)
+		return -1;
+
+	if ((size_t) n < str->cap - str->len) {
+		str->len = n + str->len;
+		return 0;
+	}
+
+	if (sl_str_reserve(str, n + str->len + 1) == -1)
+		return -1;
+
+	va_copy(cp, args);
+
+	n = vsnprintf(&str->data[str->len], str->cap - str->len, fmt, args);
+
+	if (n == -1)
+		return -1;
+
+	str->len = n + str->len;
+
 	return 0;
 }

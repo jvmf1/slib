@@ -93,3 +93,6 @@ int sl_str_count_char(sl_str *str, const char ch);
 
 // increases str->cap by cap - str->cap if needed
 int sl_str_reserve(sl_str *str, size_t cap);
+
+// concatenates fmt to str
+int sl_str_printf(sl_str *str, const char *fmt, ...);
