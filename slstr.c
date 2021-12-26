@@ -77,7 +77,8 @@ sl_str* sl_str_create(const char *s) {
 }
 
 sl_str* sl_str_create_cap(size_t cap) {
-	if (cap==0) return NULL;
+	if (cap == 0)
+		cap = 1;
 	sl_str *str = malloc(sizeof(sl_str));
 	if (str != NULL) {
 		str->len = 0;
