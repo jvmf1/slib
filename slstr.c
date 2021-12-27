@@ -139,7 +139,7 @@ int sl_str_incr_cap(sl_str *str, size_t cap) {
 	return 0;
 }
 
-int sl_str_cat(sl_str *dest, char *str) {
+int sl_str_cat(sl_str *dest, const char *str) {
 	size_t len = strlen(str);
 	if (len==0) return 0;
 	size_t new_len;
@@ -360,6 +360,7 @@ int sl_str_breakline(sl_str *str, size_t count) {
 		j++;
 	}
 
+	free(str->data);
 	str->cap = new_str->cap;
 	str->len = new_str->len;
 	str->data = new_str->data;
@@ -419,5 +420,70 @@ int sl_str_printf(sl_str *str, const char *fmt, ...) {
 	va_end(cp);
 	va_end(args);
 
+	return 0;
+}
+
+int sl_str_replace(sl_str *str, const char *old, const char *new) {
+	char *tmp;
+	char *ins;
+	size_t count = 0;
+	size_t oldlen = strlen(old);
+	size_t newlen = strlen(new);
+	
+	if (oldlen == 0)
+		return -1;
+
+	ins = str->data;
+	for (count = 0; (tmp = strstr(ins, old)); count++) {
+		ins = tmp + oldlen;
+	}
+
+	if (count == 0)
+		return 0;
+
+	sl_str *new_str = sl_str_create_cap(str->len + (newlen - oldlen) * count + 1);
+	if (new_str == NULL)
+		return -1;
+
+	ins = str->data;
+	for (count = 0; (tmp = strstr(ins, old)); count++) {
+		if (ins == tmp) {
+			sl_str_cat(new_str, new);
+			ins = tmp + oldlen;
+			continue;
+		}
+		sl_str_catn(new_str, tmp - ins, ins);
+		sl_str_cat(new_str, new);
+		ins = tmp + oldlen;
+	}
+
+	sl_str_cat(new_str, ins);
+
+	free(str->data);
+	str->data = new_str->data;
+	str->cap = new_str->cap;
+	str->len = new_str->len;
+	free(new_str);
+
+	return 0;
+}
+
+int sl_str_catn(sl_str *str, size_t size, const char *src) {
+	size_t lensrc = strlen(src);
+
+	if (lensrc == 0)
+		return 0;
+
+	if (size == 0)
+		return 0;
+
+	if (size > lensrc)
+		return -1;
+
+	if (sl_str_reserve(str, str->len + size + 1) == -1)
+		return -1;
+	memcpy(str->data+str->len, src, size);
+	str->len += size;
+	str->data[str->len] = '\0';
 	return 0;
 }
