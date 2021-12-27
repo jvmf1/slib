@@ -433,6 +433,9 @@ int sl_str_replace(sl_str *str, const char *old, const char *new) {
 	if (oldlen == 0)
 		return -1;
 
+	if ((strcmp(old, new) == 0))
+		return 0;
+
 	ins = str->data;
 	for (count = 0; (tmp = strstr(ins, old)); count++) {
 		ins = tmp + oldlen;
