@@ -444,24 +444,25 @@ int sl_str_replace(sl_str *str, const char *old, const char *new) {
 	if (count == 0)
 		return 0;
 
-	sl_str *new_str = sl_str_create_cap(str->len + (newlen - oldlen) * count + 1);
-	if (new_str == NULL)
+	if ((sl_str_reserve(str, str->len + (newlen - oldlen) * count + 1)) == -1)
 		return -1;
 
-	ins = str->data;
+	ins = malloc(str->len + 1);
+	if (ins == NULL)
+		return -1;
+	char *insptr = ins;
+	memcpy(ins, str->data, str->len + 1);
+
+	sl_str_clear(str);
 	for (count = 0; (tmp = strstr(ins, old)); count++) {
-		sl_str_catn(new_str, tmp - ins, ins);
-		sl_str_cat(new_str, new);
+		sl_str_catn(str, tmp - ins, ins);
+		sl_str_cat(str, new);
 		ins = tmp + oldlen;
 	}
 
-	sl_str_cat(new_str, ins);
+	sl_str_cat(str, ins);
 
-	free(str->data);
-	str->data = new_str->data;
-	str->cap = new_str->cap;
-	str->len = new_str->len;
-	free(new_str);
+	free(insptr);
 
 	return 0;
 }
