@@ -1,5 +1,5 @@
 CC=cc
-CFLAGS=-Wall -Wextra -fPIC
+CFLAGS=-Wall -Wextra -fPIC -Werror
 NAME=libslib
 
 INCLUDEDESTDIR=/usr/local/include/slib
