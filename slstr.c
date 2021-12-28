@@ -151,7 +151,7 @@ int sl_str_cat(sl_str *dest, const char *str) {
 	return 0;
 }		
 
-int sl_str_scat(sl_str *dest, sl_str *str) {
+int sl_str_scat(sl_str *dest, const sl_str *str) {
 	if (str->len==0) return 0;
 	size_t new_len;
 	new_len = dest->len + str->len;
@@ -183,7 +183,7 @@ int sl_str_set(sl_str *str, const char *s) {
 	return 0;
 }
 
-int sl_str_sset(sl_str *str, sl_str *s) {
+int sl_str_sset(sl_str *str, const sl_str *s) {
 	if (sl_str_reserve(str, s->len + 1) == -1)
 		return -1;
 	memcpy(str->data, s->data, sizeof(char)*s->len+1);
@@ -253,7 +253,7 @@ void sl_str_trim_left(sl_str *str, const char ch) {
 	str->len -= i;
 }
 
-size_t sl_str_distance (sl_str *str, sl_str * str2){
+size_t sl_str_distance(const sl_str *str, const sl_str * str2){
 	size_t matrix[str->len + 1][str2->len + 1];
 	size_t i,j;
 	size_t delete, insert, substitute, minimum;
