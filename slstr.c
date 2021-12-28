@@ -468,7 +468,7 @@ int sl_str_replace(sl_str *str, const char *old, const char *new) {
 	return 0;
 }
 
-int sl_str_catn(sl_str *str, size_t size, const char *src) {
+int sl_str_ncat(sl_str *str, size_t size, const char *src) {
 	size_t lensrc = strlen(src);
 
 	if (lensrc == 0)
