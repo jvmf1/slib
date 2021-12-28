@@ -298,8 +298,9 @@ sl_str* sl_str_fread(FILE *f) {
 	sl_str *str = sl_str_create_cap(size+1);
 	if (str == NULL)
 		return NULL;
-	fread(str->data, size+1, 1, f);
+	fread(str->data, size, 1, f);
 	str->len = size;
+	str->data[str->len] = '\0';
 	return str;
 }
 
