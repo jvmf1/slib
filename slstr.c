@@ -456,7 +456,7 @@ int sl_str_replace(sl_str *str, const char *old, const char *new) {
 
 	sl_str_clear(str);
 	for (count = 0; (tmp = strstr(ins, old)); count++) {
-		sl_str_catn(str, tmp - ins, ins);
+		sl_str_ncat(str, tmp - ins, ins);
 		sl_str_cat(str, new);
 		ins = tmp + oldlen;
 	}

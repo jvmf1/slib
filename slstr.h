@@ -100,4 +100,4 @@ int sl_str_reserve(sl_str *str, size_t cap);
 int sl_str_printf(sl_str *str, const char *fmt, ...);
 
 // concatenates n chars of src
-int sl_str_catn(sl_str *str, size_t size, const char *src);
+int sl_str_ncat(sl_str *str, size_t size, const char *src);
