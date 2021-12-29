@@ -91,7 +91,7 @@ int sl_str_ccat(sl_str *str, const char ch);
 /* automatically breaks line if it doesn't find any in 'count' times */
 int sl_str_breakline(sl_str *str, size_t count);
 
-int sl_str_count_char(sl_str *str, const char ch);
+int sl_str_count_char(const sl_str *str, const char ch);
 
 /* increases str->cap by cap - str->cap if needed
  * returns:
@@ -106,6 +106,6 @@ int sl_str_printf(sl_str *str, const char *fmt, ...);
 /* concatenates n chars of src */
 int sl_str_ncat(sl_str *str, size_t size, const char *src);
 
-bool sl_str_contains(sl_str *str, const char *s);
+bool sl_str_contains(const sl_str *str, const char *s);
 
-int sl_str_count(sl_str *str, const char *s);
+int sl_str_count(const sl_str *str, const char *s);

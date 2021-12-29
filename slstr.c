@@ -369,7 +369,7 @@ int sl_str_breakline(sl_str *str, size_t count) {
 	return 0;
 }
 
-int sl_str_count_char(sl_str *str, const char ch) {
+int sl_str_count_char(const sl_str *str, const char ch) {
 	int c = 0;
 	for (size_t i = 0; i < str->len; i++) {
 		if (str->data[i] == ch)
@@ -483,13 +483,13 @@ int sl_str_ncat(sl_str *str, size_t size, const char *src) {
 	return 0;
 }
 
-bool sl_str_contains(sl_str *str, const char *s) {
+bool sl_str_contains(const sl_str *str, const char *s) {
 	if ((strstr(str->data, s) == NULL))
 		return false;
 	return true;
 }
 
-int sl_str_count(sl_str *str, const char *s) {
+int sl_str_count(const sl_str *str, const char *s) {
 	int lens = strlen(s);
 	if (lens == 0)
 		return 1;
