@@ -382,6 +382,7 @@ int sl_str_reserve(sl_str *str, size_t cap) {
 	if (cap > str->cap) {
 		if (sl_str_incr_cap(str, cap - str->cap) == -1)
 			return -1;
+		return 1;
 	}
 	return 0;
 }

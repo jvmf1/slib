@@ -93,7 +93,11 @@ int sl_str_breakline(sl_str *str, size_t count);
 
 int sl_str_count_char(sl_str *str, const char ch);
 
-/* increases str->cap by cap - str->cap if needed */
+/* increases str->cap by cap - str->cap if needed
+ * returns:
+ *		0 if didn't need to increase cap
+ *		1 if needed to incr cap
+ *		-1 if failed to incr cap */
 int sl_str_reserve(sl_str *str, size_t cap);
 
 /* concatenates fmt to str */
