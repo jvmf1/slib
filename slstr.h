@@ -1,7 +1,7 @@
-
 #pragma once
 
 #include <stddef.h>
+#include <stdbool.h>
 #include <stdio.h>
 
 typedef struct sl_str {
@@ -105,3 +105,5 @@ int sl_str_printf(sl_str *str, const char *fmt, ...);
 
 /* concatenates n chars of src */
 int sl_str_ncat(sl_str *str, size_t size, const char *src);
+
+bool sl_str_contains(sl_str *str, const char *s);

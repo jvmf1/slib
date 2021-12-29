@@ -486,3 +486,9 @@ int sl_str_ncat(sl_str *str, size_t size, const char *src) {
 	str->data[str->len] = '\0';
 	return 0;
 }
+
+bool sl_str_contains(sl_str *str, const char *s) {
+	if ((strstr(str->data, s) == NULL))
+		return false;
+	return true;
+}
