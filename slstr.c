@@ -436,11 +436,7 @@ int sl_str_replace(sl_str *str, const char *old, const char *new) {
 	if ((strcmp(old, new) == 0))
 		return 0;
 
-	ins = str->data;
-	for (count = 0; (tmp = strstr(ins, old)); count++) {
-		ins = tmp + oldlen;
-	}
-
+	count = sl_str_count(str, old);
 	if (count == 0)
 		return 0;
 
@@ -454,7 +450,7 @@ int sl_str_replace(sl_str *str, const char *old, const char *new) {
 	memcpy(ins, str->data, str->len + 1);
 
 	sl_str_clear(str);
-	for (count = 0; (tmp = strstr(ins, old)); count++) {
+	while ((tmp = strstr(ins, old))) {
 		sl_str_ncat(str, tmp - ins, ins);
 		sl_str_cat(str, new);
 		ins = tmp + oldlen;
@@ -491,4 +487,17 @@ bool sl_str_contains(sl_str *str, const char *s) {
 	if ((strstr(str->data, s) == NULL))
 		return false;
 	return true;
+}
+
+int sl_str_count(sl_str *str, const char *s) {
+	int lens = strlen(s);
+	if (lens == 0)
+		return 1;
+	int count;
+	char *ins = str->data;
+	char *tmp;
+	for (count = 0; (tmp = strstr(ins, s)); count++) {
+		ins = tmp + lens;
+	}
+	return count;
 }

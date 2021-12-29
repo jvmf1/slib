@@ -107,3 +107,5 @@ int sl_str_printf(sl_str *str, const char *fmt, ...);
 int sl_str_ncat(sl_str *str, size_t size, const char *src);
 
 bool sl_str_contains(sl_str *str, const char *s);
+
+int sl_str_count(sl_str *str, const char *s);
