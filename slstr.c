@@ -425,6 +425,7 @@ int sl_str_printf(sl_str *str, const char *fmt, ...) {
 
 int sl_str_replace(sl_str *str, const char *old, const char *new) {
 	char *tmp;
+	char buf[str->len + 1];
 	char *ins;
 	size_t count = 0;
 	size_t oldlen = strlen(old);
@@ -443,11 +444,8 @@ int sl_str_replace(sl_str *str, const char *old, const char *new) {
 	if ((sl_str_reserve(str, str->len + (newlen - oldlen) * count + 1)) == -1)
 		return -1;
 
-	ins = malloc(str->len + 1);
-	if (ins == NULL)
-		return -1;
-	char *insptr = ins;
-	memcpy(ins, str->data, str->len + 1);
+	memcpy(buf, str->data, str->len + 1);
+	ins = buf;
 
 	sl_str_clear(str);
 	while ((tmp = strstr(ins, old))) {
@@ -457,8 +455,6 @@ int sl_str_replace(sl_str *str, const char *old, const char *new) {
 	}
 
 	sl_str_cat(str, ins);
-
-	free(insptr);
 
 	return 0;
 }
