@@ -109,3 +109,5 @@ int sl_str_ncat(sl_str *str, size_t size, const char *src);
 bool sl_str_contains(const sl_str *str, const char *s);
 
 int sl_str_count(const sl_str *str, const char *s);
+
+int sl_str_scount(const sl_str *str, const sl_str *s);

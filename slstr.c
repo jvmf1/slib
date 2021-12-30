@@ -501,3 +501,15 @@ int sl_str_count(const sl_str *str, const char *s) {
 	}
 	return count;
 }
+
+int sl_str_scount(const sl_str *str, const sl_str *s) {
+	if (s->len == 0)
+		return 1;
+	int count;
+	char *ins = str->data;
+	char *tmp;
+	for (count = 0; (tmp = strstr(ins, s->data)); count++) {
+		ins = tmp + s->len;
+	}
+	return count;
+}
