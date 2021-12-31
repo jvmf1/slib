@@ -10,9 +10,9 @@ $(info $$CFLAGS = $(CFLAGS))
 $(info $$INCLUDEDESTDIR = $(INCLUDEDESTDIR))
 $(info $$LIBDESTDIR = $(LIBDESTDIR))
 
-OBJ=slll.o slstr.o slmap.o
-# SRC=slll.c slstr.c slmap.c
-HEADERS=slll.h slstr.h slmap.h
+OBJ=ll.o str.o map.o
+# SRC=ll.c str.c map.c
+HEADERS=ll.h str.h map.h
 
 all: $(NAME).so
 

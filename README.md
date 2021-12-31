@@ -5,9 +5,9 @@ cd slib
 sudo make install
 ```
 
-# slstr.h example
+# str.h example
 ```c
-#include <slib/slstr.h>
+#include <slib/str.h>
 
 int main() {
 
@@ -30,11 +30,11 @@ int main() {
 }
 
 ```
-# slll.h + slstr.h example
+# ll.h + str.h example
 ```c
-#include <slib/slstr.h>
+#include <slib/str.h>
 #include <string.h>
-#include <slib/slll.h>
+#include <slib/ll.h>
 
 // create a free function with void* arg so slll can free everything correctly
 void free_data(void *data) {
@@ -79,10 +79,10 @@ int main() {
 }
 
 ```
-# slmap.h + slstr.h example
+# map.h + str.h example
 ```c
-#include <slib/slstr.h>
-#include <slib/slmap.h>
+#include <slib/str.h>
+#include <slib/map.h>
 
 // create a free function with void* arg so slmap can free everything correctly
 void free_data(void *data) {
