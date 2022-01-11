@@ -12,6 +12,12 @@ typedef struct sl_ll {
 	void (*free_data_function)(void*);
 } sl_ll;
 
+#define SL_LL_FOREACH(entry, tmp) \
+		for( ; (entry) && ( (tmp) = ((entry)->data), 1) ; (entry) = (entry)->next )
+
+#define SL_LL_FOREACH_SAFE(entry, next_entry, tmp) \
+		for( ; (entry) && ((next_entry) = (entry)->next, 1) && ((tmp) = ((entry)->data), 1) ; (entry) = (next_entry) )
+
 sl_ll_entry* sl_ll_entry_create(void *data); 
 
 void sl_ll_entry_free(sl_ll *ll, sl_ll_entry *entry);

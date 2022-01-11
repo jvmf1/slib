@@ -36,7 +36,7 @@ int main() {
 #include <string.h>
 #include <slib/ll.h>
 
-// create a free function with void* arg so slll can free everything correctly
+// create a free function with void* arg so ll can free everything correctly
 void free_data(void *data) {
 	sl_str *str = ((sl_str*)data);
 	sl_str_free(str);
@@ -55,36 +55,30 @@ int main() {
 	sl_ll_push(ll, sl_str_create("orange"));
 
 	// iterate through linked list and delete "blue"
-	sl_ll_entry *entry=ll->head;
+	sl_ll_entry *entry = ll->head;
 	sl_ll_entry *next_entry;
-	while (entry!=NULL) {
-		next_entry=entry->next;
-		sl_str *entry_string = ((sl_str*)entry->data);
-		if (strcmp("blue", entry_string->data)==0) {
+	sl_str *tmp;
+	SL_LL_FOREACH_SAFE(entry, next_entry, tmp) {
+		if (strcmp("blue", tmp->data) == 0)
 			sl_ll_remove(ll, entry);
-		}
-		entry=next_entry;
 	}
 
 	// iterate again printing all strings
 	entry=ll->head;
-	while (entry!=NULL) {
-		sl_str *entry_string = ((sl_str*)entry->data);
-		printf("%s\n", entry_string->data);
-		entry=entry->next;
+	SL_LL_FOREACH(entry, tmp) {
+		printf("%s\n", tmp->data);
 	}
 
 	// finally free the linked list
 	sl_ll_free(ll);
 }
-
 ```
 # map.h + str.h example
 ```c
 #include <slib/str.h>
 #include <slib/map.h>
 
-// create a free function with void* arg so slmap can free everything correctly
+// create a free function with void* arg so map can free everything correctly
 void free_data(void *data) {
 	sl_str *str = ((sl_str*)data);
 	sl_str_free(str);
