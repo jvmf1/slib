@@ -104,6 +104,8 @@ int main() {
 	sl_map_print(map);
 
 	sl_map *new_map = sl_map_resize(map, 5);
+	// set free function to NULL so sl_map_free(map) dont free sl_str data
+	map->free_data_function=NULL;
 	sl_map_free(map);
 	sl_map_print(new_map);
 	sl_map_free(new_map);
