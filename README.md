@@ -3,6 +3,7 @@
 git clone https://github.com/jvmf1/slib
 cd slib
 sudo make install
+# you might need to add LD_LIBRARY_PATH='/usr/local/lib' in your bashrc
 ```
 
 # str.h example
