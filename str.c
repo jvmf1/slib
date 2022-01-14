@@ -213,9 +213,9 @@ void sl_str_free(sl_str *str) {
 
 void sl_str_print(const sl_str *str) {
 	if (str->len==0)
-		printf("cap:%ld\nlen:%ld\ndata:(nil)\n", str->cap, str->len);
+		printf("cap:%zu\nlen:%zu\ndata:(nil)\n", str->cap, str->len);
 	else
-		printf("cap:%ld\nlen:%ld\ndata:%s\n", str->cap, str->len, str->data);
+		printf("cap:%zu\nlen:%zu\ndata:%s\n", str->cap, str->len, str->data);
 }
 
 int sl_str_set(sl_str *str, const char *s) {

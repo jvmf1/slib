@@ -136,11 +136,11 @@ void* sl_map_get(sl_map *m, const char *key) {
 }
 
 void sl_map_print(sl_map *m) {
-	printf("map:%p size:%ld\n", m, m->size);
+	printf("map:%p size:%zu\n", m, m->size);
 	for (size_t i=0;i<m->size;i++) {
 		if (m->entries[i]==NULL) continue;
 		sl_map_entry *tmp = m->entries[i];
-		printf("\tentry[%ld]\n", i);
+		printf("\tentry[%zu]\n", i);
 		while (tmp!=NULL) {
 			printf("\t\t%p key:'%s' data:%p next:%p\n", tmp, tmp->key, tmp->data, tmp->next);
 			tmp=tmp->next;
