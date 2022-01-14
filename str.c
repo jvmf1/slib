@@ -27,6 +27,8 @@ int sl_str_replace_char(sl_str *str, const char old, const char new) {
 }
 
 int sl_str_replace_charn(sl_str *str, const size_t n, const char new) {
+	if (str->cap == 0)
+		return -1;
 	if (new=='\0' && n <= str->len) {
 		str->len=n;
 		str->data[n]=new;
@@ -39,7 +41,8 @@ int sl_str_replace_charn(sl_str *str, const size_t n, const char new) {
 
 void sl_str_clear(sl_str *str) {
 	str->len=0;
-	str->data[0]='\0';
+	if (str->cap != 0)
+		str->data[0]='\0';
 }
 
 int sl_str_trim_cap(sl_str *str) {
@@ -63,8 +66,10 @@ void sl_str_reverse(sl_str *str) {
 
 sl_str* sl_str_create(const char *s) {
 	sl_str *str = malloc(sizeof(sl_str));
-	if (str != NULL) {
-		str->len = strlen(s);
+	if (str == NULL)
+		return NULL;
+	str->len = strlen(s);
+	if (str->len != 0) {
 		str->cap = str->len + 1;
 		str->data = malloc(sizeof(char) * str->cap);
 		if (str->data==NULL) {
@@ -72,23 +77,30 @@ sl_str* sl_str_create(const char *s) {
 			return NULL;
 		}
 		memcpy(str->data, s, str->len+1);
+	} else {
+		str->cap = 0;
+		str->data = NULL;
 	}
 	return str;
 }
 
 sl_str* sl_str_create_cap(size_t cap) {
-	if (cap == 0)
-		cap = 1;
 	sl_str *str = malloc(sizeof(sl_str));
 	if (str != NULL) {
 		str->len = 0;
 		str->cap = cap;
-		str->data = malloc(sizeof(char) * str->cap);
-		if (str->data==NULL) {
+
+		if (str->cap == 0)
+			str->data = NULL;
+		else
+			str->data = malloc(sizeof(char) * str->cap);
+
+		if (str->data==NULL && str->cap != 0) {
 			free(str);
 			return NULL;
 		}
-		str->data[0]='\0';
+		if (str->cap > 0)
+			str->data[0]='\0';
 	}
 	return str;
 }
@@ -108,6 +120,8 @@ int sl_str_fgetsx(sl_str *str, FILE *stream, const char x, size_t cap_incr) {
 	size_t necessary_cap;
 	while((ch=getc(stream))!=x) {
 		if (ch==EOF) {
+			if (str->cap == 0)
+				return 1;
 			str->data[str->len]='\0';
 			return 1;
 		}
@@ -190,6 +204,8 @@ int sl_str_sset(sl_str *str, const sl_str *s) {
 }
 
 void sl_str_trim_all(sl_str *str, const char ch) {
+	if (str->cap <= 1)
+		return;
 	size_t j = 0;
 	size_t i;
 	bool addchar = false;
@@ -218,6 +234,8 @@ void sl_str_trim(sl_str *str, const char ch) {
 }
 
 void sl_str_trim_right(sl_str *str, const char ch) {
+	if (str->cap <= 1)
+		return;
 	if (str->len == 0)
 		return;
 	size_t i;
@@ -235,6 +253,8 @@ void sl_str_trim_right(sl_str *str, const char ch) {
 }
 
 void sl_str_trim_left(sl_str *str, const char ch) {
+	if (str->cap <= 1)
+		return;
 	if (str->len == 0)
 		return;
 	size_t i;
@@ -480,12 +500,16 @@ int sl_str_ncat(sl_str *str, size_t size, const char *src) {
 }
 
 bool sl_str_contains(const sl_str *str, const char *s) {
+	if (str->cap == 0)
+		return false;
 	if ((strstr(str->data, s) == NULL))
 		return false;
 	return true;
 }
 
 int sl_str_count(const sl_str *str, const char *s) {
+	if (str->cap == 0)
+		return 0;
 	int lens = strlen(s);
 	if (lens == 0)
 		return 1;
@@ -499,6 +523,8 @@ int sl_str_count(const sl_str *str, const char *s) {
 }
 
 int sl_str_scount(const sl_str *str, const sl_str *s) {
+	if (str->cap == 0)
+		return 0;
 	if (s->len == 0)
 		return 1;
 	int count;
