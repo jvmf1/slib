@@ -212,10 +212,11 @@ void sl_str_free(sl_str *str) {
 }
 
 void sl_str_print(const sl_str *str) {
+	printf("str:%p\n", str);
 	if (str->len==0)
-		printf("cap:%zu\nlen:%zu\ndata:(nil)\n", str->cap, str->len);
+		printf("\tcap:%zu\n\tlen:%zu\n\tdata:(nil)\n", str->cap, str->len);
 	else
-		printf("cap:%zu\nlen:%zu\ndata:%s\n", str->cap, str->len, str->data);
+		printf("\tcap:%zu\n\tlen:%zu\n\tdata:%s\n", str->cap, str->len, str->data);
 }
 
 int sl_str_set(sl_str *str, const char *s) {
