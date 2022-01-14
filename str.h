@@ -70,6 +70,11 @@ int sl_str_fgets(sl_str *str, FILE *stream, size_t cap_incr);
  *		-1 if fail to incr cap */
 int sl_str_fgetsx(sl_str *str, FILE *stream, const char x, size_t cap_incr);
 
+/* same as above but cap_incr is multiplied by 2 everytime */
+int sl_str_gets2(sl_str *str, size_t cap_incr);
+int sl_str_fgets2(sl_str *str, FILE *stream, size_t cap_incr);
+int sl_str_fgetsx2(sl_str *str, FILE *stream, const char x, size_t cap_incr);
+
 /* removes conscultives 'ch' and 'ch' at the beginning and end */
 void sl_str_trim_all(sl_str *str, const char ch);
 

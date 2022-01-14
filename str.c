@@ -105,14 +105,20 @@ sl_str* sl_str_create_cap(size_t cap) {
 	return str;
 }
 
-// get stdin and increases capacity by cap_incr when needed
 int sl_str_gets(sl_str *str, size_t cap_incr) {
 	return sl_str_fgetsx(str, stdin, '\n', cap_incr);
 }
 
-// get FILE stream and increases capacity by cap_incr when needed
 int sl_str_fgets(sl_str *str, FILE *stream, size_t cap_incr) {
 	return sl_str_fgetsx(str, stream, EOF, cap_incr);
+}
+
+int sl_str_gets2(sl_str *str, size_t cap_incr) {
+	return sl_str_fgetsx2(str, stdin, '\n', cap_incr);
+}
+
+int sl_str_fgets2(sl_str *str, FILE *stream, size_t cap_incr) {
+	return sl_str_fgetsx2(str, stream, EOF, cap_incr);
 }
 
 int sl_str_fgetsx(sl_str *str, FILE *stream, const char x, size_t cap_incr) {
@@ -132,6 +138,32 @@ int sl_str_fgetsx(sl_str *str, FILE *stream, const char x, size_t cap_incr) {
 				str->data[str->len]='\0';
 				return -1;
 			}
+		}
+		str->data[str->len]=ch;
+		str->len++;
+	}
+	str->data[str->len]='\0';
+	return 0;
+}
+
+int sl_str_fgetsx2(sl_str *str, FILE *stream, const char x, size_t cap_incr) {
+	char ch;
+	size_t necessary_cap;
+	while((ch=getc(stream))!=x) {
+		if (ch==EOF) {
+			if (str->cap == 0)
+				return 1;
+			str->data[str->len]='\0';
+			return 1;
+		}
+		// new char + null;
+		necessary_cap = str->len + 2;
+		if (str->cap < necessary_cap) {
+			if ((sl_str_incr_cap(str, cap_incr)) == -1) {
+				str->data[str->len]='\0';
+				return -1;
+			}
+			cap_incr = cap_incr * 2;
 		}
 		str->data[str->len]=ch;
 		str->len++;
