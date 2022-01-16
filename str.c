@@ -68,7 +68,12 @@ sl_str* sl_str_create(const char *s) {
 	sl_str *str = malloc(sizeof(sl_str));
 	if (str == NULL)
 		return NULL;
-	str->len = strlen(s);
+
+	if (s == NULL)
+		str->len = 0;
+	else
+		str->len = strlen(s);
+
 	if (str->len != 0) {
 		str->cap = str->len + 1;
 		str->data = malloc(sizeof(char) * str->cap);
