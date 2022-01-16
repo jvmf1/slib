@@ -225,6 +225,10 @@ void sl_str_print(const sl_str *str) {
 }
 
 int sl_str_set(sl_str *str, const char *s) {
+	if (s == NULL) {
+		sl_str_clear(str);
+		return 0;
+	}
 	size_t len = strlen(s);
 	if (sl_str_reserve(str, len + 1) == -1)
 		return -1;
