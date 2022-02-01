@@ -594,3 +594,55 @@ sl_str* sl_str_read(int fd) {
 	str->data[str->len] = '\0';
 	return str;
 }
+
+int sl_str_fdgets(sl_str *str, int fd, size_t bufsize, size_t cap_incr) {
+	char buf[bufsize];
+	size_t rb;
+	size_t necessary_cap;
+	while(1) {
+		rb = read(fd, &buf, bufsize);
+		if (rb <= 0)
+			break;
+		necessary_cap = rb + 1 + str->len;
+		if (necessary_cap > str->cap) {
+			if (cap_incr > rb + 1) {
+				if (sl_str_incr_cap(str, cap_incr) == -1)
+					return -1;
+			} else {
+				if (sl_str_incr_cap(str, rb + 1 + cap_incr) == -1)
+					return -1;
+			}
+		}
+		memcpy(&str->data[str->len], buf, rb);
+		str->len += rb;
+	}
+	str->data[str->len] = '\0';
+	return 0;
+}
+
+int sl_str_fdgets2(sl_str *str, int fd, size_t bufsize, size_t cap_incr) {
+	char buf[bufsize];
+	size_t rb;
+	size_t necessary_cap;
+	while(1) {
+		rb = read(fd, &buf, bufsize);
+		if (rb <= 0)
+			break;
+		necessary_cap = rb + 1 + str->len;
+		if (necessary_cap > str->cap) {
+			if (cap_incr > rb + 1) {
+				if (sl_str_incr_cap(str, cap_incr) == -1)
+					return -1;
+				cap_incr = cap_incr * 2;
+			} else {
+				if (sl_str_incr_cap(str, rb + 1 + cap_incr) == -1)
+					return -1;
+				cap_incr = cap_incr * 2;
+			}
+		}
+		memcpy(&str->data[str->len], buf, rb);
+		str->len += rb;
+	}
+	str->data[str->len] = '\0';
+	return 0;
+}
