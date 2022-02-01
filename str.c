@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdarg.h>
+#include <unistd.h>
 
 void sl_str_tolower(sl_str *str) {
 	for(size_t i=0;i<str->len;i++) {
@@ -576,4 +577,20 @@ int sl_str_scount(const sl_str *str, const sl_str *s) {
 		ins = tmp + s->len;
 	}
 	return count;
+}
+
+sl_str* sl_str_read(int fd) {
+	sl_str *str = sl_str_create(NULL);
+	if (str == NULL)
+		return NULL;
+
+	if (sl_str_reserve(str, lseek(fd, 0, SEEK_END)+1) == -1) {
+		sl_str_free(str);
+		return NULL;
+	}
+	str->len = str->cap - 1;
+	lseek(fd, 0, SEEK_SET);
+	read(fd, str->data, str->cap - 1);
+	str->data[str->len] = '\0';
+	return str;
 }
