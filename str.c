@@ -606,11 +606,15 @@ int sl_str_fdgets(sl_str *str, int fd, size_t bufsize, size_t cap_incr) {
 		necessary_cap = rb + 1 + str->len;
 		if (necessary_cap > str->cap) {
 			if (cap_incr > rb + 1) {
-				if (sl_str_incr_cap(str, cap_incr) == -1)
+				if (sl_str_incr_cap(str, cap_incr) == -1) {
+					str->data[str->len] = '\0';
 					return -1;
+				}
 			} else {
-				if (sl_str_incr_cap(str, rb + 1 + cap_incr) == -1)
+				if (sl_str_incr_cap(str, rb + 1 + cap_incr) == -1) {
+					str->data[str->len] = '\0';
 					return -1;
+				}
 			}
 		}
 		memcpy(&str->data[str->len], buf, rb);
@@ -631,12 +635,16 @@ int sl_str_fdgets2(sl_str *str, int fd, size_t bufsize, size_t cap_incr) {
 		necessary_cap = rb + 1 + str->len;
 		if (necessary_cap > str->cap) {
 			if (cap_incr > rb + 1) {
-				if (sl_str_incr_cap(str, cap_incr) == -1)
+				if (sl_str_incr_cap(str, cap_incr) == -1) {
+					str->data[str->len] = '\0';
 					return -1;
+				}
 				cap_incr = cap_incr * 2;
 			} else {
-				if (sl_str_incr_cap(str, rb + 1 + cap_incr) == -1)
+				if (sl_str_incr_cap(str, rb + 1 + cap_incr) == -1) {
+					str->data[str->len] = '\0';
 					return -1;
+				}
 				cap_incr = cap_incr * 2;
 			}
 		}
