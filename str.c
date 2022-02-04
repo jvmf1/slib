@@ -654,3 +654,18 @@ int sl_str_fdgets2(sl_str *str, int fd, size_t bufsize, size_t cap_incr) {
 	str->data[str->len] = '\0';
 	return 0;
 }
+
+sl_str* sl_str_copy(const sl_str *str) {
+	sl_str *s = malloc(sizeof(sl_str));
+	if (s == NULL)
+		return NULL;
+	s->len = str->len;
+	s->cap = str->cap;
+	s->data = malloc(sizeof(s->cap));
+	if (s->data == NULL) {
+		free(s);
+		return NULL;
+	}
+	memcpy(s->data, str->data, str->len+1);
+	return s;
+}
