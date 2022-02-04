@@ -123,3 +123,5 @@ int sl_str_fdgets(sl_str *str, int fd, size_t bufsize, size_t cap_incr);
 int sl_str_fdgets2(sl_str *str, int fd, size_t bufsize, size_t cap_incr);
 
 sl_str* sl_str_copy(const sl_str *str);
+
+void sl_str_rm_consecutive_char(sl_str *str, const char ch);

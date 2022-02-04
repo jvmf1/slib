@@ -669,3 +669,26 @@ sl_str* sl_str_copy(const sl_str *str) {
 	memcpy(s->data, str->data, str->len+1);
 	return s;
 }
+
+void sl_str_rm_consecutive_char(sl_str *str, const char ch) {
+	if (str->cap <= 1)
+		return;
+	size_t j = 0;
+	size_t i;
+	bool addchar = true;
+	for (i=0;i<str->len;i++) {
+		if (str->data[i]==ch) {
+			if (addchar==true) {
+				addchar=false;
+				str->data[j]=str->data[i];
+				j++;
+			}
+		} else {
+			addchar=true;
+			str->data[j]=str->data[i];
+			j++;
+		}
+	}
+	str->len=j;
+	str->data[j]='\0';
+}
